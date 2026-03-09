@@ -1,0 +1,304 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Vendor Theme Pro",
+    "theme_version": "1.0.0",
+    "theme_author": "Custom",
+    "theme_documentation_url": "",
+    "theme_support_url": ""
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#ec4899"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_light",
+        "label": "Primary Light",
+        "default": "#f472b6"
+      },
+      {
+        "type": "color",
+        "id": "color_primary_dark",
+        "label": "Primary Dark",
+        "default": "#db2777"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Background",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "color_background_secondary",
+        "label": "Secondary Background",
+        "default": "#1a0011"
+      },
+      {
+        "type": "color",
+        "id": "color_card_bg",
+        "label": "Card Background",
+        "default": "#141414"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "Secondary Text Color",
+        "default": "#a1a1aa"
+      },
+      {
+        "type": "color",
+        "id": "color_border",
+        "label": "Border Color",
+        "default": "#27272a"
+      },
+      {
+        "type": "color",
+        "id": "color_sale_badge",
+        "label": "Sale Badge Color",
+        "default": "#dc2626"
+      },
+      {
+        "type": "color",
+        "id": "color_button",
+        "label": "Button Color",
+        "default": "#ec4899"
+      },
+      {
+        "type": "color",
+        "id": "color_button_text",
+        "label": "Button Text Color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_star",
+        "label": "Star Rating Color",
+        "default": "#ec4899"
+      },
+      {
+        "type": "color",
+        "id": "color_announcement_bg",
+        "label": "Announcement Bar Background",
+        "default": "#ec4899"
+      },
+      {
+        "type": "color",
+        "id": "color_announcement_text",
+        "label": "Announcement Bar Text",
+        "default": "#000000"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "select",
+        "id": "heading_font",
+        "label": "Heading Font",
+        "default": "Bebas Neue",
+        "options": [
+          { "value": "Bebas Neue", "label": "Bebas Neue" },
+          { "value": "Orbitron", "label": "Orbitron" },
+          { "value": "Oswald", "label": "Oswald" },
+          { "value": "Montserrat", "label": "Montserrat" },
+          { "value": "Poppins", "label": "Poppins" },
+          { "value": "Inter", "label": "Inter" },
+          { "value": "Playfair Display", "label": "Playfair Display" }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "body_font",
+        "label": "Body Font",
+        "default": "Inter",
+        "options": [
+          { "value": "Inter", "label": "Inter" },
+          { "value": "Poppins", "label": "Poppins" },
+          { "value": "Montserrat", "label": "Montserrat" },
+          { "value": "Open Sans", "label": "Open Sans" },
+          { "value": "Roboto", "label": "Roboto" },
+          { "value": "DM Sans", "label": "DM Sans" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Logo Text",
+        "default": "Iulian Gay"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_image",
+        "label": "Logo Image"
+      },
+      {
+        "type": "range",
+        "id": "header_opacity",
+        "label": "Header Opacity",
+        "min": 50,
+        "max": 100,
+        "step": 5,
+        "default": 85,
+        "unit": "%"
+      },
+      {
+        "type": "checkbox",
+        "id": "header_blur",
+        "label": "Enable Header Blur",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Announcement Bar",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "announcement_show",
+        "label": "Show Announcement Bar",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement Text",
+        "default": "🔥 Free shipping on orders over $50!"
+      },
+      {
+        "type": "url",
+        "id": "announcement_link",
+        "label": "Announcement Link"
+      }
+    ]
+  },
+  {
+    "name": "Product Cards",
+    "settings": [
+      {
+        "type": "range",
+        "id": "card_border_speed",
+        "label": "Border Animation Speed",
+        "min": 2,
+        "max": 10,
+        "step": 1,
+        "default": 4,
+        "unit": "s"
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_sale",
+        "label": "Show Sale Badge",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "card_show_compare_price",
+        "label": "Show Compare Price",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "card_image_size",
+        "label": "Card Image Size",
+        "min": 60,
+        "max": 95,
+        "step": 5,
+        "default": 85,
+        "unit": "%"
+      },
+      {
+        "type": "range",
+        "id": "card_border_radius",
+        "label": "Card Border Radius",
+        "min": 0,
+        "max": 24,
+        "step": 2,
+        "default": 14,
+        "unit": "px"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes",
+        "label": "Enable Cart Notes",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "cart_empty_text",
+        "label": "Empty Cart Text",
+        "default": "Your cart is empty"
+      },
+      {
+        "type": "text",
+        "id": "cart_button_text",
+        "label": "Checkout Button Text",
+        "default": "Proceed to Checkout"
+      }
+    ]
+  },
+  {
+    "name": "Social Media",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok URL"
+      },
+      {
+        "type": "url",
+        "id": "social_telegram",
+        "label": "Telegram URL"
+      },
+      {
+        "type": "url",
+        "id": "social_twitter",
+        "label": "Twitter / X URL"
+      },
+      {
+        "type": "url",
+        "id": "social_youtube",
+        "label": "YouTube URL"
+      }
+    ]
+  },
+  {
+    "name": "SEO and Analytics",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_head_code",
+        "label": "Custom Head Code",
+        "info": "Add custom HTML, scripts, or meta tags to the <head> section."
+      }
+    ]
+  }
+]
