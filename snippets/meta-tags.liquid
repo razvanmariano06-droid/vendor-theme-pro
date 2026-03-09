@@ -1,0 +1,16 @@
+<title>{{ page_title }}{% unless page_title contains shop.name %} - {{ shop.name }}{% endunless %}</title>
+<meta name="description" content="{{ page_description | default: shop.description | escape }}">
+<link rel="canonical" href="{{ canonical_url }}">
+{%- if settings.favicon %}<link rel="icon" type="image/png" href="{{ settings.favicon | img_url: '32x32' }}">{% endif %}
+<!-- Open Graph -->
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:title" content="{{ page_title | escape }}">
+<meta property="og:type" content="website">
+{%- if page_image %}<meta property="og:image" content="{{ page_image | img_url: '1200x' }}">{% endif %}
+<meta property="og:description" content="{{ page_description | default: shop.description | escape }}">
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page_title | escape }}">
+<meta name="twitter:description" content="{{ page_description | default: shop.description | escape }}">
+{%- if page_image %}<meta name="twitter:image" content="{{ page_image | img_url: '1200x' }}">{% endif %}

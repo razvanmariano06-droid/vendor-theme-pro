@@ -1,0 +1,10 @@
+{%- comment -%} Usage: {% render 'quantity-selector', value: 1 %} {%- endcomment -%}
+<div class="quantity-selector">
+  <button type="button" class="qty-btn qty-minus" aria-label="{{ 'cart.decrease_qty' | t }}">
+    {% render 'icon-minus' %}
+  </button>
+  <input type="number" name="quantity" value="{{ value | default: 1 }}" min="1" class="qty-input" aria-label="{{ 'cart.quantity' | t }}">
+  <button type="button" class="qty-btn qty-plus" aria-label="{{ 'cart.increase_qty' | t }}">
+    {% render 'icon-plus' %}
+  </button>
+</div>

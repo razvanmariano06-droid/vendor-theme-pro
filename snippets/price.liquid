@@ -1,0 +1,23 @@
+{%- if variant -%}
+  {%- assign show_compare = false -%}
+  {%- if settings.card_show_compare_price and variant.compare_at_price and variant.compare_at_price != blank and variant.compare_at_price > variant.price -%}
+    {%- assign show_compare = true -%}
+  {%- endif -%}
+  <div class="price-row">
+    {%- if show_compare -%}
+      <span class="price-old">{{ variant.compare_at_price | money }}</span>
+    {%- endif -%}
+    <span class="price-current {%- if show_compare -%} on-sale{%- endif -%}">{{ variant.price | money }}</span>
+  </div>
+{%- elsif product -%}
+  {%- assign show_compare = false -%}
+  {%- if settings.card_show_compare_price and product.compare_at_price and product.compare_at_price != blank and product.compare_at_price > product.price -%}
+    {%- assign show_compare = true -%}
+  {%- endif -%}
+  <div class="price-row">
+    {%- if show_compare -%}
+      <span class="price-old">{{ product.compare_at_price | money }}</span>
+    {%- endif -%}
+    <span class="price-current {%- if show_compare -%} on-sale{%- endif -%}">{{ product.price | money }}</span>
+  </div>
+{%- endif -%}
