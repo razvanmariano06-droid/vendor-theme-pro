@@ -1,0 +1,20 @@
+{%- comment -%} Usage: {% render 'product-card', product: product, index: forloop.index0 %} {%- endcomment -%}
+<a href="{{ product.url }}" class="product-card" style="--card-index: {{ index | default: 0 }}">
+  <div class="card-outer">
+    <div class="card-spinner"></div>
+    <div class="card-inner">
+      {% render 'sale-badge', product: product %}
+      <div class="card-img-wrap">
+        {% if product.featured_image %}
+          {% render 'image-lazy', image: product.featured_image, alt: product.title, width: 400 %}
+        {% else %}
+          <div class="card-placeholder">👑</div>
+        {% endif %}
+      </div>
+      <div class="card-info">
+        <h3>{{ product.title }}</h3>
+        {% render 'price', product: product %}
+      </div>
+    </div>
+  </div>
+</a>

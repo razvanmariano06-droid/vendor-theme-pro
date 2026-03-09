@@ -1,0 +1,206 @@
+<style>
+  .products-grid-section {
+    padding: var(--section-padding-v, 5rem) 0;
+    background: var(--page-bg, #0a0a0f);
+  }
+
+  .products-grid__inner {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md, 1.5rem);
+  }
+
+  .products-grid__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .products-grid__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text-color, #e2e8f0);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .products-grid__title-accent {
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    border-radius: 999px;
+    margin: 0.75rem auto 0;
+  }
+
+  .products-grid__grid {
+    display: grid;
+    gap: var(--product-grid-gap, 1.5rem);
+    grid-template-columns: repeat(var(--grid-cols, 4), 1fr);
+  }
+
+  /* Responsive column override */
+  @media (max-width: 1199px) {
+    .products-grid__grid[data-cols="6"],
+    .products-grid__grid[data-cols="5"] {
+      --grid-cols: 4;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .products-grid__grid {
+      --grid-cols: 3;
+    }
+    .products-grid__grid[data-cols="2"] {
+      --grid-cols: 2;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .products-grid__grid {
+      --grid-cols: 2;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .products-grid__grid {
+      --grid-cols: 1;
+    }
+    .products-grid__grid[data-cols="2"] {
+      --grid-cols: 2;
+      gap: 0.75rem;
+    }
+  }
+
+  /* Empty state */
+  .products-grid__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-muted, #64748b);
+    font-size: 1rem;
+  }
+
+  .products-grid__empty svg {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    display: block;
+    opacity: 0.3;
+  }
+</style>
+
+{%- if section.settings.show_section == false -%}
+  {%- comment -%} Section hidden via settings {%- endcomment -%}
+{%- else -%}
+
+<section class="products-grid-section" aria-labelledby="products-grid-heading-{{ section.id }}">
+  <div class="products-grid__inner">
+
+    {%- if section.settings.grid_title != blank -%}
+      <header class="products-grid__header">
+        <h2 class="products-grid__title" id="products-grid-heading-{{ section.id }}">
+          {{ section.settings.grid_title }}
+        </h2>
+        <span class="products-grid__title-accent" aria-hidden="true"></span>
+      </header>
+    {%- endif -%}
+
+    {%- assign grid_columns = section.settings.columns | default: 4 -%}
+    {%- assign product_limit = section.settings.product_limit | default: 8 -%}
+
+    <div class="products-grid__grid"
+         style="--grid-cols: {{ grid_columns }};"
+         data-cols="{{ grid_columns }}">
+
+      {%- assign source_collection = section.settings.collection -%}
+
+      {%- if source_collection != blank -%}
+        {%- assign products_to_show = source_collection.products | slice: 0, product_limit -%}
+        {%- if products_to_show.size > 0 -%}
+          {%- for product in source_collection.products limit: product_limit -%}
+            {% render 'product-card', product: product, index: forloop.index0 %}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="products-grid__empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <p>{{ 'sections.products_grid.no_products' | t }}</p>
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        {%- comment -%} Fallback to featured products when no collection is selected {%- endcomment -%}
+        {%- assign featured_products = collections.all.products -%}
+        {%- if featured_products.size > 0 -%}
+          {%- for product in featured_products limit: product_limit -%}
+            {% render 'product-card', product: product, index: forloop.index0 %}
+          {%- endfor -%}
+        {%- else -%}
+          <div class="products-grid__empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            <p>{{ 'sections.products_grid.select_collection' | t }}</p>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+    </div>
+  </div>
+</section>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Products Grid",
+  "class": "products-grid-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "grid_title",
+      "label": "Section Title",
+      "default": "Featured Products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 8,
+      "label": "Number of Products"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "Columns (desktop)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products Grid"
+    }
+  ]
+}
+{% endschema %}

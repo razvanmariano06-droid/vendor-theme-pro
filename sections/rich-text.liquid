@@ -1,0 +1,130 @@
+{%- assign s = section.settings -%}
+
+<section
+  id="rich-text-{{ section.id }}"
+  class="rich-text rich-text--align-{{ s.text_align }} rich-text--width-{{ s.content_width }}"
+>
+  <div class="rich-text__inner">
+    {%- if s.heading != blank -%}
+      <h2 class="rich-text__heading rich-text__heading--{{ s.heading_size }}">
+        {{ s.heading | escape }}
+      </h2>
+    {%- endif -%}
+
+    {%- if s.content != blank -%}
+      <div class="rich-text__body rte">
+        {{ s.content }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  #rich-text-{{ section.id }} {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+  }
+
+  #rich-text-{{ section.id }} .rich-text__inner {
+    margin: 0 auto;
+  }
+
+  /* Width variants */
+  #rich-text-{{ section.id }}.rich-text--width-narrow  .rich-text__inner { max-width: 560px;  }
+  #rich-text-{{ section.id }}.rich-text--width-normal  .rich-text__inner { max-width: 800px;  }
+  #rich-text-{{ section.id }}.rich-text--width-wide    .rich-text__inner { max-width: 1100px; }
+
+  /* Alignment */
+  #rich-text-{{ section.id }}.rich-text--align-left   .rich-text__inner { text-align: left;   margin-right: auto; margin-left: 0; }
+  #rich-text-{{ section.id }}.rich-text--align-center .rich-text__inner { text-align: center; }
+  #rich-text-{{ section.id }}.rich-text--align-right  .rich-text__inner { text-align: right;  margin-left: auto;  margin-right: 0; }
+
+  /* Heading sizes */
+  #rich-text-{{ section.id }} .rich-text__heading {
+    font-family: var(--font-heading, inherit);
+    color: var(--text-color, #111);
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  #rich-text-{{ section.id }} .rich-text__heading--small  { font-size: clamp(1.25rem, 2vw, 1.5rem);  }
+  #rich-text-{{ section.id }} .rich-text__heading--medium { font-size: clamp(1.5rem, 3vw, 2.25rem);  }
+  #rich-text-{{ section.id }} .rich-text__heading--large  { font-size: clamp(2rem, 4vw, 3rem);       }
+
+  /* RTE body */
+  #rich-text-{{ section.id }} .rich-text__body {
+    color: var(--text-color-muted, #444);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  #rich-text-{{ section.id }} .rich-text__body p:last-child { margin-bottom: 0; }
+
+  #rich-text-{{ section.id }} .rich-text__body a {
+    color: var(--primary, #222);
+    text-decoration: underline;
+  }
+
+  #rich-text-{{ section.id }} .rich-text__body a:hover {
+    color: var(--primary-hover, #444);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Rich Text",
+  "tag": "section",
+  "class": "section-rich-text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "About Us"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "default": "medium",
+      "options": [
+        { "value": "small",  "label": "Small"  },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large",  "label": "Large"  }
+      ]
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Share your brand story, mission, or any information you want your customers to know.</p>"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content Width",
+      "default": "normal",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "wide",   "label": "Wide"   }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich Text"
+    }
+  ]
+}
+{% endschema %}

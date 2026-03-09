@@ -1,0 +1,261 @@
+<div class="article-content-section" data-section-id="{{ section.id }}">
+  <div class="container">
+    <div class="article-content__inner">
+
+      {%- comment -%} Back to blog link {%- endcomment -%}
+      <nav class="article-content__breadcrumb" aria-label="{{ 'general.breadcrumb.aria_label' | t }}">
+        <a href="{{ blog.url }}" class="article-content__back-link">
+          <span aria-hidden="true">←</span>
+          {{ 'blogs.article.back_to_blog' | t: title: blog.title }}
+        </a>
+      </nav>
+
+      <header class="article-content__header">
+        <h1 class="article-content__title" itemprop="headline">{{ article.title }}</h1>
+
+        <div class="article-content__meta">
+          {%- if section.settings.show_date -%}
+            <time
+              class="article-content__date"
+              datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+              itemprop="datePublished"
+            >
+              {{ article.published_at | date: format: 'month_day_year' }}
+            </time>
+          {%- endif -%}
+
+          {%- if section.settings.show_author -%}
+            <span class="article-content__author" itemprop="author">
+              {{ 'blogs.article.by_author' | t: author: article.author }}
+            </span>
+          {%- endif -%}
+        </div>
+      </header>
+
+      {%- if article.image -%}
+        <div class="article-content__featured-image-wrapper">
+          <img
+            src="{{ article.image | img_url: '1200x600', crop: 'center' }}"
+            alt="{{ article.image.alt | default: article.title | escape }}"
+            class="article-content__featured-image"
+            loading="eager"
+            width="1200"
+            height="600"
+            itemprop="image"
+          >
+        </div>
+      {%- endif -%}
+
+      <div class="article-content__body rte" itemprop="articleBody">
+        {{ article.content }}
+      </div>
+
+      {%- if section.settings.show_tags and article.tags.size > 0 -%}
+        <div class="article-content__tags">
+          <span class="article-content__tags-label">{{ 'blogs.article.tags' | t }}:</span>
+          {%- for tag in article.tags -%}
+            <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="article-content__tag">
+              {{ tag }}
+            </a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_share -%}
+        <div class="article-content__share">
+          <span class="article-content__share-label">{{ 'general.share.title' | t }}</span>
+          <div class="article-content__share-buttons">
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u={{ shop.url }}{{ article.url }}"
+              class="article-content__share-btn article-content__share-btn--facebook"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ 'general.share.facebook' | t }}"
+            >
+              {% render 'icon-share', network: 'facebook' %}
+              <span>{{ 'general.share.facebook' | t }}</span>
+            </a>
+            <a
+              href="https://twitter.com/intent/tweet?text={{ article.title | url_encode }}&url={{ shop.url }}{{ article.url }}"
+              class="article-content__share-btn article-content__share-btn--twitter"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ 'general.share.twitter' | t }}"
+            >
+              {% render 'icon-share', network: 'twitter' %}
+              <span>{{ 'general.share.twitter' | t }}</span>
+            </a>
+            <a
+              href="https://pinterest.com/pin/create/button/?url={{ shop.url }}{{ article.url }}&media={{ article.image | img_url: '1200x' }}&description={{ article.title | url_encode }}"
+              class="article-content__share-btn article-content__share-btn--pinterest"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ 'general.share.pinterest' | t }}"
+            >
+              {% render 'icon-share', network: 'pinterest' %}
+              <span>{{ 'general.share.pinterest' | t }}</span>
+            </a>
+          </div>
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .article-content-section { padding: 40px 0 72px; }
+  .article-content__inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .article-content__back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--primary);
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: gap 0.2s;
+  }
+  .article-content__back-link:hover { gap: 10px; }
+  .article-content__header { margin-bottom: 24px; }
+  .article-content__title {
+    font-size: 2.2rem;
+    color: var(--text-color);
+    line-height: 1.25;
+    margin: 0 0 16px;
+  }
+  .article-content__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 0.875rem;
+    color: var(--text-muted, var(--text-color));
+  }
+  .article-content__featured-image-wrapper {
+    margin-bottom: 36px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .article-content__featured-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .article-content__body {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 40px;
+  }
+  .article-content__body h2,
+  .article-content__body h3 {
+    color: var(--text-color);
+    margin-top: 2em;
+    margin-bottom: 0.7em;
+  }
+  .article-content__body a { color: var(--primary); }
+  .article-content__body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1em 0;
+  }
+  .article-content__body blockquote {
+    border-left: 4px solid var(--primary);
+    margin: 2em 0;
+    padding: 12px 24px;
+    background: var(--surface, #f9f9f9);
+    font-style: italic;
+  }
+  .article-content__tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color, #e5e5e5);
+  }
+  .article-content__tags-label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.875rem;
+  }
+  .article-content__tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--surface, #f0f0f0);
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .article-content__tag:hover { background: var(--primary); color: var(--primary-text, #fff); }
+  .article-content__share {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color, #e5e5e5);
+  }
+  .article-content__share-label {
+    font-weight: 600;
+    color: var(--text-color);
+    font-size: 0.875rem;
+    margin-right: 4px;
+  }
+  .article-content__share-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+  .article-content__share-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    color: #fff;
+  }
+  .article-content__share-btn:hover { opacity: 0.85; }
+  .article-content__share-btn--facebook { background: #1877f2; }
+  .article-content__share-btn--twitter  { background: #1da1f2; }
+  .article-content__share-btn--pinterest { background: #e60023; }
+</style>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show article date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show article author",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show article tags",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_share",
+      "label": "Show social share buttons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

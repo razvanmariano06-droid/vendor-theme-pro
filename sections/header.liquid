@@ -1,0 +1,515 @@
+<style>
+  .header-section {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: rgba(var(--header-bg-rgb, 10, 10, 10), var(--header-opacity, 0.95));
+    backdrop-filter: blur(var(--header-blur, 12px));
+    -webkit-backdrop-filter: blur(var(--header-blur, 12px));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: background 0.3s ease;
+  }
+
+  .header-inner {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md, 1.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-height, 64px);
+    gap: 1rem;
+  }
+
+  /* ── Logo ── */
+  .header-logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    gap: 0.5rem;
+  }
+
+  .header-logo img {
+    height: var(--logo-height, 40px);
+    width: auto;
+    object-fit: contain;
+  }
+
+  .header-logo-text {
+    font-family: var(--font-heading, inherit);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary, #a78bfa);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* ── Desktop Nav ── */
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-nav > li {
+    position: relative;
+  }
+
+  .header-nav > li > a {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0 1rem;
+    height: var(--header-height, 64px);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-color, #e2e8f0);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .header-nav > li > a:hover,
+  .header-nav > li > a.active {
+    color: var(--primary, #a78bfa);
+  }
+
+  .header-nav > li > a .nav-caret {
+    width: 12px;
+    height: 12px;
+    opacity: 0.6;
+    transition: transform 0.2s ease;
+  }
+
+  /* Dropdown */
+  .header-nav > li:hover > a .nav-caret {
+    transform: rotate(180deg);
+  }
+
+  .header-nav .dropdown {
+    display: none;
+    position: absolute;
+    top: calc(var(--header-height, 64px) - 4px);
+    left: 0;
+    min-width: 200px;
+    background: var(--surface, #1a1a2e);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius, 8px);
+    padding: 0.5rem 0;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    animation: dropdownFadeIn 0.18s ease;
+  }
+
+  @keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-nav > li:hover .dropdown,
+  .header-nav > li:focus-within .dropdown {
+    display: block;
+  }
+
+  .header-nav .dropdown a {
+    display: block;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--text-muted, #94a3b8);
+    text-decoration: none;
+    transition: color 0.15s ease, background 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .header-nav .dropdown a:hover {
+    color: var(--primary, #a78bfa);
+    background: rgba(167, 139, 250, 0.07);
+  }
+
+  /* ── Right icons ── */
+  .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .header-icon-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--text-color, #e2e8f0);
+    cursor: pointer;
+    border-radius: var(--radius-sm, 6px);
+    transition: color 0.2s ease, background 0.2s ease;
+    text-decoration: none;
+  }
+
+  .header-icon-btn:hover {
+    color: var(--primary, #a78bfa);
+    background: rgba(167, 139, 250, 0.1);
+  }
+
+  .header-icon-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--primary, #a78bfa);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .cart-badge[data-count="0"] {
+    display: none;
+  }
+
+  /* ── Hamburger (mobile only) ── */
+  .header-hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--text-color, #e2e8f0);
+    cursor: pointer;
+    border-radius: var(--radius-sm, 6px);
+    transition: color 0.2s ease;
+  }
+
+  .header-hamburger svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* ── Mobile Nav Overlay ── */
+  .mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-nav-overlay.open {
+    display: block;
+    opacity: 1;
+  }
+
+  .mobile-nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 85vw);
+    height: 100%;
+    background: var(--surface, #1a1a2e);
+    z-index: 1200;
+    transform: translateX(-100%);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .mobile-nav-drawer.open {
+    transform: translateX(0);
+  }
+
+  .mobile-nav-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .mobile-nav-header .header-logo-text {
+    font-size: 1.2rem;
+  }
+
+  .mobile-nav-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted, #94a3b8);
+    cursor: pointer;
+    border-radius: var(--radius-sm, 6px);
+    transition: color 0.2s ease;
+  }
+
+  .mobile-nav-close:hover {
+    color: var(--text-color, #e2e8f0);
+  }
+
+  .mobile-nav-close svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 0;
+    flex: 1;
+  }
+
+  .mobile-nav-links li a {
+    display: block;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color, #e2e8f0);
+    text-decoration: none;
+    transition: color 0.2s ease, background 0.2s ease;
+    border-left: 2px solid transparent;
+  }
+
+  .mobile-nav-links li a:hover {
+    color: var(--primary, #a78bfa);
+    background: rgba(167, 139, 250, 0.06);
+    border-left-color: var(--primary, #a78bfa);
+  }
+
+  .mobile-nav-links .mobile-sub-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .mobile-nav-links .mobile-sub-links a {
+    padding-left: 2.5rem;
+    font-size: 0.9rem;
+    color: var(--text-muted, #94a3b8);
+  }
+
+  .mobile-nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1023px) {
+    .header-nav { display: none; }
+    .header-hamburger { display: flex; }
+  }
+
+  @media (max-width: 479px) {
+    .header-icon-btn.header-search { display: none; }
+  }
+</style>
+
+<header class="header-section" role="banner">
+  <div class="header-inner">
+
+    {%- comment -%} Logo {%- endcomment -%}
+    <div class="header-logo">
+      <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if settings.logo_image != blank -%}
+          {% render 'image-lazy', image: settings.logo_image, alt: shop.name, class: 'header-logo-img' %}
+        {%- else -%}
+          <span class="header-logo-text">{{ settings.logo_text | default: shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    {%- comment -%} Desktop Navigation {%- endcomment -%}
+    <nav class="header-desktop-nav" aria-label="{{ 'layout.navigation.main' | t }}">
+      <ul class="header-nav" role="list">
+        {%- for link in linklists['main-menu'].links -%}
+          <li>
+            <a href="{{ link.url }}"
+              {%- if link.active %} class="active" aria-current="page"{% endif -%}
+              {%- if link.links.size > 0 %} aria-haspopup="true" aria-expanded="false"{% endif -%}>
+              {{- link.title -}}
+              {%- if link.links.size > 0 -%}
+                <svg class="nav-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              {%- endif -%}
+            </a>
+            {%- if link.links.size > 0 -%}
+              <ul class="dropdown" role="list">
+                {%- for child_link in link.links -%}
+                  <li>
+                    <a href="{{ child_link.url }}"
+                      {%- if child_link.active %} aria-current="page"{% endif -%}>
+                      {{ child_link.title }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    {%- comment -%} Right-side icons {%- endcomment -%}
+    <div class="header-icons">
+      <a href="{{ routes.search_url }}" class="header-icon-btn header-search" aria-label="{{ 'general.search.title' | t }}">
+        {% render 'icon-search' %}
+      </a>
+
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+           class="header-icon-btn"
+           aria-label="{{ 'customer.account.title' | t }}">
+          {% render 'icon-account' %}
+        </a>
+      {%- endif -%}
+
+      <a href="{{ routes.cart_url }}"
+         class="header-icon-btn header-cart-btn"
+         aria-label="{{ 'layout.cart.title' | t }}"
+         data-cart-toggle>
+        {% render 'icon-cart' %}
+        <span class="cart-badge" data-count="{{ cart.item_count }}" aria-live="polite">
+          {{ cart.item_count }}
+        </span>
+      </a>
+
+      {%- comment -%} Hamburger (mobile) {%- endcomment -%}
+      <button class="header-hamburger"
+              aria-label="{{ 'layout.navigation.menu' | t }}"
+              aria-expanded="false"
+              aria-controls="mobile-nav-drawer"
+              id="hamburger-btn">
+        {% render 'icon-menu' %}
+      </button>
+    </div>
+  </div>
+</header>
+
+{%- comment -%} Mobile Nav {%- endcomment -%}
+<div class="mobile-nav-overlay" id="mobile-nav-overlay" aria-hidden="true" role="presentation"></div>
+<nav class="mobile-nav-drawer" id="mobile-nav-drawer" aria-label="{{ 'layout.navigation.mobile' | t }}" aria-hidden="true">
+  <div class="mobile-nav-header">
+    {%- if settings.logo_image != blank -%}
+      {% render 'image-lazy', image: settings.logo_image, alt: shop.name %}
+    {%- else -%}
+      <span class="header-logo-text">{{ settings.logo_text | default: shop.name }}</span>
+    {%- endif -%}
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="{{ 'general.accessibility.close' | t }}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <ul class="mobile-nav-links" role="list">
+    {%- for link in linklists['main-menu'].links -%}
+      <li>
+        <a href="{{ link.url }}"
+          {%- if link.active %} aria-current="page"{% endif -%}>
+          {{ link.title }}
+        </a>
+        {%- if link.links.size > 0 -%}
+          <ul class="mobile-sub-links" role="list">
+            {%- for child_link in link.links -%}
+              <li>
+                <a href="{{ child_link.url }}"
+                  {%- if child_link.active %} aria-current="page"{% endif -%}>
+                  {{ child_link.title }}
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ul>
+
+  <div class="mobile-nav-icons">
+    <a href="{{ routes.search_url }}" class="header-icon-btn" aria-label="{{ 'general.search.title' | t }}">
+      {% render 'icon-search' %}
+    </a>
+    {%- if shop.customer_accounts_enabled -%}
+      <a href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
+         class="header-icon-btn"
+         aria-label="{{ 'customer.account.title' | t }}">
+        {% render 'icon-account' %}
+      </a>
+    {%- endif -%}
+    <a href="{{ routes.cart_url }}" class="header-icon-btn" aria-label="{{ 'layout.cart.title' | t }}">
+      {% render 'icon-cart' %}
+      <span class="cart-badge" data-count="{{ cart.item_count }}">{{ cart.item_count }}</span>
+    </a>
+  </div>
+</nav>
+
+<script>
+  (function () {
+    var hamburger = document.getElementById('hamburger-btn');
+    var overlay   = document.getElementById('mobile-nav-overlay');
+    var drawer    = document.getElementById('mobile-nav-drawer');
+    var closeBtn  = document.getElementById('mobile-nav-close');
+
+    function openNav() {
+      overlay.classList.add('open');
+      drawer.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      drawer.setAttribute('aria-hidden', 'false');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeNav() {
+      overlay.classList.remove('open');
+      drawer.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      drawer.setAttribute('aria-hidden', 'true');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', openNav);
+    closeBtn.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeNav();
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "header-section",
+  "settings": []
+}
+{% endschema %}

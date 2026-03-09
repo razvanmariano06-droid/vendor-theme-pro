@@ -1,0 +1,27 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {}
+    },
+    "products": {
+      "type": "products-grid",
+      "settings": {}
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {},
+      "blocks": {}
+    },
+    "faq": {
+      "type": "faq-section",
+      "settings": {},
+      "blocks": {}
+    },
+    "member_results": {
+      "type": "member-results",
+      "settings": {}
+    }
+  },
+  "order": ["hero", "products", "testimonials", "faq", "member_results"]
+}

@@ -1,0 +1,409 @@
+<style>
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    min-height: var(--hero-min-height, 88vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--page-bg, #0a0a0f) 0%, var(--page-bg-end, #12082a) 100%);
+  }
+
+  /* ── Background image ── */
+  .hero-banner__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-banner__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  .hero-banner__bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(var(--page-bg-rgb, 10, 10, 15), 0.82) 0%,
+      rgba(var(--page-bg-rgb, 10, 10, 15), 0.55) 100%
+    );
+  }
+
+  /* ── Animated glow orbs ── */
+  .hero-banner__glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .hero-banner__glow::before,
+  .hero-banner__glow::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: glowPulse 8s ease-in-out infinite alternate;
+  }
+
+  .hero-banner__glow::before {
+    width: 600px;
+    height: 600px;
+    top: -200px;
+    left: -150px;
+    background: radial-gradient(circle, rgba(167, 139, 250, 0.18) 0%, transparent 70%);
+    animation-delay: 0s;
+  }
+
+  .hero-banner__glow::after {
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -100px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    animation-delay: -4s;
+  }
+
+  @keyframes glowPulse {
+    0%   { opacity: 0.6; transform: scale(1) translate(0, 0); }
+    50%  { opacity: 1;   transform: scale(1.08) translate(10px, -10px); }
+    100% { opacity: 0.7; transform: scale(0.95) translate(-5px, 5px); }
+  }
+
+  /* ── Content ── */
+  .hero-banner__content {
+    position: relative;
+    z-index: 2;
+    max-width: var(--container-width, 1280px);
+    width: 100%;
+    margin: 0 auto;
+    padding: var(--spacing-xl, 4rem) var(--spacing-md, 1.5rem);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .hero-banner__label {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    background: rgba(167, 139, 250, 0.12);
+    border: 1px solid rgba(167, 139, 250, 0.3);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--primary, #a78bfa);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-banner__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text-color, #e2e8f0);
+    margin: 0 0 1.25rem;
+    max-width: 14ch;
+  }
+
+  .hero-banner__title em {
+    font-style: normal;
+    background: linear-gradient(90deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-banner__subtitle {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.7;
+    color: var(--text-muted, #94a3b8);
+    max-width: 56ch;
+    margin: 0 auto 2.5rem;
+  }
+
+  /* ── CTA button ── */
+  .hero-banner__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 2.25rem;
+    background: var(--primary, #a78bfa);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: var(--radius, 8px);
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 0 0 0 rgba(167, 139, 250, 0.4);
+    margin-bottom: 4rem;
+  }
+
+  .hero-banner__cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+
+  .hero-banner__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 36px rgba(167, 139, 250, 0.4);
+  }
+
+  .hero-banner__cta:hover::before {
+    transform: translateX(100%);
+  }
+
+  .hero-banner__cta-arrow {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.2s ease;
+  }
+
+  .hero-banner__cta:hover .hero-banner__cta-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ── Stats row ── */
+  .hero-banner__stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 700px;
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    padding-top: 2.5rem;
+  }
+
+  .hero-stat {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    padding: 0.75rem 1.5rem;
+    position: relative;
+  }
+
+  .hero-stat + .hero-stat::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .hero-stat__number {
+    display: block;
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--primary, #a78bfa);
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-stat__label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted, #94a3b8);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 599px) {
+    .hero-banner__stats {
+      gap: 0.5rem;
+    }
+
+    .hero-stat + .hero-stat::before {
+      display: none;
+    }
+
+    .hero-stat {
+      min-width: 100px;
+    }
+  }
+</style>
+
+<section class="hero-banner" aria-label="{{ section.settings.hero_title | escape }}">
+
+  {%- if section.settings.bg_image != blank -%}
+    <div class="hero-banner__bg">
+      <img
+        src="{{ section.settings.bg_image | img_url: '1920x' }}"
+        alt="{{ section.settings.bg_image.alt | default: section.settings.hero_title | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ section.settings.bg_image.width }}"
+        height="{{ section.settings.bg_image.height }}">
+      <div class="hero-banner__bg-overlay"></div>
+    </div>
+  {%- endif -%}
+
+  <div class="hero-banner__glow" aria-hidden="true"></div>
+
+  <div class="hero-banner__content">
+    <span class="hero-banner__label" aria-hidden="true">
+      {{ 'sections.hero.label' | t }}
+    </span>
+
+    <h1 class="hero-banner__title">
+      {{ section.settings.hero_title }}
+    </h1>
+
+    {%- if section.settings.hero_subtitle != blank -%}
+      <p class="hero-banner__subtitle">{{ section.settings.hero_subtitle }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.cta_text != blank -%}
+      <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}"
+         class="hero-banner__cta">
+        {{ section.settings.cta_text }}
+        <svg class="hero-banner__cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    {%- endif -%}
+
+    {%- assign has_stats = false -%}
+    {%- if section.settings.stat1_number != blank
+        or section.settings.stat2_number != blank
+        or section.settings.stat3_number != blank -%}
+      {%- assign has_stats = true -%}
+    {%- endif -%}
+
+    {%- if has_stats -%}
+      <div class="hero-banner__stats" role="list">
+
+        {%- if section.settings.stat1_number != blank -%}
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__number">{{ section.settings.stat1_number }}</span>
+            {%- if section.settings.stat1_label != blank -%}
+              <span class="hero-stat__label">{{ section.settings.stat1_label }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.stat2_number != blank -%}
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__number">{{ section.settings.stat2_number }}</span>
+            {%- if section.settings.stat2_label != blank -%}
+              <span class="hero-stat__label">{{ section.settings.stat2_label }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.stat3_number != blank -%}
+          <div class="hero-stat" role="listitem">
+            <span class="hero-stat__number">{{ section.settings.stat3_number }}</span>
+            {%- if section.settings.stat3_label != blank -%}
+              <span class="hero-stat__label">{{ section.settings.stat3_label }}</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "class": "hero-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Welcome to Iulian Gay"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "Discover premium products crafted for those who demand excellence."
+    },
+    {
+      "type": "text",
+      "id": "stat1_number",
+      "label": "Stat 1 – Number",
+      "default": "10K+"
+    },
+    {
+      "type": "text",
+      "id": "stat1_label",
+      "label": "Stat 1 – Label",
+      "default": "Happy Customers"
+    },
+    {
+      "type": "text",
+      "id": "stat2_number",
+      "label": "Stat 2 – Number",
+      "default": "500+"
+    },
+    {
+      "type": "text",
+      "id": "stat2_label",
+      "label": "Stat 2 – Label",
+      "default": "Products"
+    },
+    {
+      "type": "text",
+      "id": "stat3_number",
+      "label": "Stat 3 – Number",
+      "default": "4.9★"
+    },
+    {
+      "type": "text",
+      "id": "stat3_label",
+      "label": "Stat 3 – Label",
+      "default": "Average Rating"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA Button Text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" dir="{% if request.locale.direction == 'rtl' %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>
+    {%- if page_title == shop.name -%}
+      {{ shop.name }}
+    {%- else -%}
+      {{ page_title }} &ndash; {{ shop.name }}
+    {%- endif -%}
+  </title>
+
+  {%- render 'meta-tags' -%}
+
+  {%- comment -%}
+    Google Fonts — heading_font and body_font are select settings (string values).
+    We load both in a single combined request when they differ, or individually
+    when they are the same family, to avoid duplicate requests.
+  {%- endcomment -%}
+  {%- assign heading_font_name = settings.heading_font -%}
+  {%- assign body_font_name    = settings.body_font -%}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  {%- if heading_font_name == body_font_name -%}
+    {%- assign gf_family = heading_font_name | url_encode | replace: '+', '%20' -%}
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family={{ gf_family }}:wght@300;400;500;600;700;900&display=swap"
+    >
+  {%- else -%}
+    {%- assign gf_heading = heading_font_name | url_encode | replace: '+', '%20' -%}
+    {%- assign gf_body    = body_font_name    | url_encode | replace: '+', '%20' -%}
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family={{ gf_heading }}:wght@300;400;500;600;700;900&family={{ gf_body }}:wght@300;400;500;600;700&display=swap"
+    >
+  {%- endif -%}
+
+  {%- comment -%} CSS Variables from theme settings {%- endcomment -%}
+  <style>
+    {%- render 'css-variables' -%}
+  </style>
+
+  {%- comment -%} Base stylesheet {%- endcomment -%}
+  {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  {%- comment -%} Template-specific stylesheets {%- endcomment -%}
+  {%- if template.name == 'product' -%}
+    {{ 'product.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+  {%- if template.name == 'collection' -%}
+    {{ 'collection.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+  {%- if template.name == 'cart' -%}
+    {{ 'cart.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+  {%- if template.directory == 'customers' -%}
+    {{ 'customer.css' | asset_url | stylesheet_tag }}
+  {%- endif -%}
+
+  {%- comment -%} Shopify required head content {%- endcomment -%}
+  {{ content_for_header }}
+
+  {%- comment -%} Custom head code injected via theme settings {%- endcomment -%}
+  {{ settings.custom_head_code }}
+</head>
+
+<body class="template-{{ template.name | handle }}{% if template.suffix != blank %} template-{{ template.name | handle }}--{{ template.suffix | handle }}{% endif %}{% if template.directory == 'customers' %} template-customers{% endif %}{% if settings.enable_animations %} animations-enabled{% endif %}">
+
+  <a class="skip-to-content-link button" href="#main-content">
+    {{ 'accessibility.skip_to_text' | t }}
+  </a>
+
+  {%- sections 'announcement-bar' -%}
+  {%- sections 'header' -%}
+
+  <main id="main-content" role="main" tabindex="-1">
+    {{ content_for_layout }}
+  </main>
+
+  {%- sections 'footer' -%}
+
+  {%- comment -%} Base JS {%- endcomment -%}
+  <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+  {%- comment -%} Template-specific JS {%- endcomment -%}
+  {%- if template.name == 'product' -%}
+    <script src="{{ 'product.js' | asset_url }}" defer></script>
+  {%- endif -%}
+
+  {%- if template.name == 'cart' -%}
+    <script src="{{ 'cart.js' | asset_url }}" defer></script>
+  {%- endif -%}
+
+</body>
+</html>

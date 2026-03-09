@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "main": {
+      "type": "error-404",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

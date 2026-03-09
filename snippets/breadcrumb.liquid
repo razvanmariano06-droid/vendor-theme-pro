@@ -1,0 +1,27 @@
+{%- unless template == 'index' -%}
+<nav class="breadcrumb" aria-label="{{ 'general.breadcrumb' | t | default: 'Breadcrumb' }}">
+  <a href="/">{{ 'general.home' | t | default: 'Home' }}</a>
+  {%- if template == 'collection' -%}
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <span class="breadcrumb__current">{{ collection.title }}</span>
+  {%- elsif template == 'product' -%}
+    {%- if collection -%}
+      <span class="breadcrumb__sep" aria-hidden="true">/</span>
+      <a href="{{ collection.url }}">{{ collection.title }}</a>
+    {%- endif -%}
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <span class="breadcrumb__current">{{ product.title }}</span>
+  {%- elsif template == 'page' -%}
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <span class="breadcrumb__current">{{ page.title }}</span>
+  {%- elsif template == 'blog' -%}
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <span class="breadcrumb__current">{{ blog.title }}</span>
+  {%- elsif template == 'article' -%}
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <a href="{{ blog.url }}">{{ blog.title }}</a>
+    <span class="breadcrumb__sep" aria-hidden="true">/</span>
+    <span class="breadcrumb__current">{{ article.title }}</span>
+  {%- endif -%}
+</nav>
+{%- endunless -%}

@@ -1,0 +1,24 @@
+:root {
+  --primary: {{ settings.color_primary }};
+  --primary-light: {{ settings.color_primary_light }};
+  --primary-dark: {{ settings.color_primary_dark }};
+  --primary-glow: {{ settings.color_primary | color_modify: 'alpha', 0.35 }};
+  --page-bg: {{ settings.color_background }};
+  --page-bg-end: {{ settings.color_background_secondary }};
+  --bg-card: {{ settings.color_card_bg }};
+  --text-color: {{ settings.color_text }};
+  --text-secondary: {{ settings.color_text_secondary }};
+  --border-color: {{ settings.color_border }};
+  --sale-color: {{ settings.color_sale_badge }};
+  --btn-color: {{ settings.color_button }};
+  --btn-text: {{ settings.color_button_text }};
+  --star-color: {{ settings.color_star }};
+  --announce-bg: {{ settings.color_announcement_bg }};
+  --announce-text: {{ settings.color_announcement_text }};
+  --font-heading: '{{ settings.heading_font }}', sans-serif;
+  --font-body: '{{ settings.body_font }}', sans-serif;
+  --header-opacity: {{ settings.header_opacity | divided_by: 100.0 }};
+  --card-speed: {{ settings.card_border_speed }}s;
+  --card-img-size: {{ settings.card_image_size }}%;
+  --card-radius: {{ settings.card_border_radius }}px;
+}

@@ -1,0 +1,449 @@
+{%- unless customer -%}
+  <script>window.location.href = '/account/login';</script>
+{%- endunless -%}
+
+<section
+  id="customer-addresses-{{ section.id }}"
+  class="customer-addresses account-section"
+>
+  {%- if customer -%}
+    <div class="account-section__inner account-section__inner--wide">
+
+      <div class="customer-addresses__header">
+        <h1 class="account-section__title">
+          {{ 'customer.addresses.title' | t | default: "Your Addresses" }}
+        </h1>
+        <a href="/account" class="btn btn--small btn--outline">
+          {{ 'customer.addresses.back' | t | default: "← Back to Account" }}
+        </a>
+      </div>
+
+      <!-- Add New Address -->
+      <div class="customer-addresses__add card" id="add-address-{{ section.id }}">
+        <button
+          type="button"
+          class="customer-addresses__toggle"
+          aria-expanded="false"
+          aria-controls="add-address-form-{{ section.id }}"
+        >
+          <span>{{ 'customer.addresses.add_new' | t | default: "Add New Address" }}</span>
+          <span class="customer-addresses__toggle-icon" aria-hidden="true">+</span>
+        </button>
+
+        <div id="add-address-form-{{ section.id }}" class="customer-addresses__form-wrap" hidden>
+          {%- form 'customer_address', customer.new_address, id: 'new-address-form-{{ section.id }}', class: 'address-form' -%}
+            {% render 'address-form-fields', form: form, section_id: section.id, form_id: 'new' %}
+            <button type="submit" class="account-form__submit btn btn--primary">
+              {{ 'customer.addresses.save' | t | default: "Save Address" }}
+            </button>
+          {%- endform -%}
+        </div>
+      </div>
+
+      <!-- Existing Addresses -->
+      {%- if customer.addresses.size > 0 -%}
+        <div class="customer-addresses__list">
+          {%- for address in customer.addresses -%}
+            <div class="customer-addresses__item card" id="address-{{ address.id }}-{{ section.id }}">
+
+              <div class="customer-addresses__item-header">
+                <div>
+                  <p class="customer-addresses__item-name">
+                    {{ address.first_name | escape }} {{ address.last_name | escape }}
+                  </p>
+                  {%- if address == customer.default_address -%}
+                    <span class="customer-addresses__default-badge">
+                      {{ 'customer.addresses.default' | t | default: "Default" }}
+                    </span>
+                  {%- endif -%}
+                </div>
+                <div class="customer-addresses__item-actions">
+                  <button
+                    type="button"
+                    class="customer-addresses__edit-btn"
+                    aria-expanded="false"
+                    aria-controls="edit-form-{{ address.id }}-{{ section.id }}"
+                  >
+                    {{ 'customer.addresses.edit' | t | default: "Edit" }}
+                  </button>
+                  {%- form 'customer_address', address, id: 'delete-form-{{ address.id }}-{{ section.id }}' -%}
+                    <input type="hidden" name="_method" value="delete">
+                    <button
+                      type="submit"
+                      class="customer-addresses__delete-btn"
+                      onclick="return confirm('{{ 'customer.addresses.delete_confirm' | t | default: 'Delete this address?' | escape }}');"
+                    >
+                      {{ 'customer.addresses.delete' | t | default: "Delete" }}
+                    </button>
+                  {%- endform -%}
+                </div>
+              </div>
+
+              <address class="customer-addresses__item-address">
+                {{ address | format_address }}
+              </address>
+
+              <!-- Edit Form (hidden by default) -->
+              <div id="edit-form-{{ address.id }}-{{ section.id }}" class="customer-addresses__form-wrap" hidden>
+                {%- form 'customer_address', address, id: 'edit-address-{{ address.id }}-{{ section.id }}', class: 'address-form' -%}
+                  <input type="hidden" name="_method" value="put">
+                  {% render 'address-form-fields', form: form, section_id: section.id, form_id: address.id %}
+
+                  <div class="address-form__default-toggle">
+                    <label class="account-form__checkbox-label">
+                      <input
+                        type="checkbox"
+                        name="address[default]"
+                        value="1"
+                        class="account-form__checkbox"
+                        {%- if address == customer.default_address -%}checked{%- endif -%}
+                      >
+                      {{ 'customer.addresses.set_default' | t | default: "Set as default address" }}
+                    </label>
+                  </div>
+
+                  <div class="address-form__actions">
+                    <button type="submit" class="account-form__submit btn btn--primary btn--inline">
+                      {{ 'customer.addresses.update' | t | default: "Update Address" }}
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn--secondary btn--inline customer-addresses__cancel-edit"
+                      data-target="edit-form-{{ address.id }}-{{ section.id }}"
+                    >
+                      {{ 'customer.addresses.cancel' | t | default: "Cancel" }}
+                    </button>
+                  </div>
+                {%- endform -%}
+              </div>
+
+            </div>
+          {%- endfor -%}
+        </div>
+
+      {%- else -%}
+        <p class="customer-addresses__empty">
+          {{ 'customer.addresses.no_addresses' | t | default: "You haven't saved any addresses yet." }}
+        </p>
+      {%- endif -%}
+
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  #customer-addresses-{{ section.id }} {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+  }
+
+  #customer-addresses-{{ section.id }} .account-section__inner--wide {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  #customer-addresses-{{ section.id }} .account-section__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--text-color, #111);
+    margin: 0;
+  }
+
+  #customer-addresses-{{ section.id }} .card {
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border-color, #e5e5e5);
+    border-radius: var(--card-radius, 8px);
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__toggle {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary, #222);
+    cursor: pointer;
+    padding: 0;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__toggle-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__toggle[aria-expanded="true"] .customer-addresses__toggle-icon {
+    transform: rotate(45deg);
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__form-wrap {
+    margin-top: 1.5rem;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__form-wrap[hidden] {
+    display: none;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__item-name {
+    font-weight: 600;
+    color: var(--text-color, #111);
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__default-badge {
+    display: inline-block;
+    padding: 0.15rem 0.6rem;
+    background: var(--status-success-bg, #d1fae5);
+    color: var(--status-success-text, #065f46);
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__item-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__edit-btn,
+  #customer-addresses-{{ section.id }} .customer-addresses__delete-btn {
+    background: none;
+    border: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__edit-btn {
+    color: var(--primary, #222);
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__delete-btn {
+    color: var(--color-error, #b91c1c);
+  }
+
+  #customer-addresses-{{ section.id }} address {
+    font-style: normal;
+    font-size: 0.9375rem;
+    color: var(--text-color-muted, #555);
+    line-height: 1.7;
+  }
+
+  #customer-addresses-{{ section.id }} .address-form__default-toggle {
+    margin: 1rem 0;
+  }
+
+  #customer-addresses-{{ section.id }} .address-form__actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  #customer-addresses-{{ section.id }} .btn--inline {
+    width: auto !important;
+    padding: 0.75rem 1.5rem;
+  }
+
+  #customer-addresses-{{ section.id }} .btn--secondary {
+    background: transparent;
+    border: 2px solid var(--border-color, #ccc);
+    color: var(--text-color-muted, #555);
+    border-radius: var(--btn-radius, 4px);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  #customer-addresses-{{ section.id }} .btn--secondary:hover {
+    border-color: var(--primary, #222);
+    color: var(--primary, #222);
+  }
+
+  #customer-addresses-{{ section.id }} .customer-addresses__empty {
+    color: var(--text-color-muted, #777);
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  /* Address form fields */
+  #customer-addresses-{{ section.id }} .address-form .account-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__field {
+    margin-bottom: 1.25rem;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color, #111);
+    margin-bottom: 0.4rem;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__input,
+  #customer-addresses-{{ section.id }} .account-form__select {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--input-border, #ccc);
+    border-radius: var(--input-radius, 4px);
+    background: var(--input-bg, #fff);
+    color: var(--text-color, #111);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+    appearance: auto;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__input:focus,
+  #customer-addresses-{{ section.id }} .account-form__select:focus {
+    outline: none;
+    border-color: var(--primary, #222);
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__submit {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+    border: none;
+    border-radius: var(--btn-radius, 4px);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__submit:hover {
+    opacity: 0.88;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color-muted, #555);
+    cursor: pointer;
+  }
+
+  #customer-addresses-{{ section.id }} .account-form__checkbox {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--primary, #222);
+    cursor: pointer;
+  }
+
+  .btn--small {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    border-radius: var(--btn-radius, 4px);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  .btn--outline {
+    border: 2px solid var(--primary, #222);
+    color: var(--primary, #222);
+    background: transparent;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .btn--outline:hover {
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+  }
+
+  @media (max-width: 480px) {
+    #customer-addresses-{{ section.id }} .address-form .account-form__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var sectionEl = document.getElementById('customer-addresses-{{ section.id }}');
+    if (!sectionEl) return;
+
+    // Toggle add-new form
+    var addToggle = sectionEl.querySelector('.customer-addresses__toggle');
+    if (addToggle) {
+      addToggle.addEventListener('click', function () {
+        var expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        var target = document.getElementById(this.getAttribute('aria-controls'));
+        if (target) target.hidden = expanded;
+      });
+    }
+
+    // Toggle edit forms
+    sectionEl.querySelectorAll('.customer-addresses__edit-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        var target = document.getElementById(this.getAttribute('aria-controls'));
+        if (target) target.hidden = expanded;
+      });
+    });
+
+    // Cancel edit buttons
+    sectionEl.querySelectorAll('.customer-addresses__cancel-edit').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var targetId = this.dataset.target;
+        var target = document.getElementById(targetId);
+        if (target) {
+          target.hidden = true;
+          var editBtn = sectionEl.querySelector('[aria-controls="' + targetId + '"]');
+          if (editBtn) editBtn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Customer Addresses",
+  "tag": "section",
+  "class": "section-customer-addresses",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Addresses"
+    }
+  ]
+}
+{% endschema %}
