@@ -1,0 +1,1394 @@
+/* ==========================================================================
+   VENDOR THEME PRO — customer.css
+   Customer / account pages specific styles
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CUSTOMER SECTION WRAPPER
+   -------------------------------------------------------------------------- */
+
+.customer-section {
+  padding: 3rem 0 5rem;
+}
+
+.customer-section__container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 var(--gutter, 1.5rem);
+}
+
+.customer-section__container--wide {
+  max-width: var(--container-max, 1280px);
+  margin: 0 auto;
+  padding: 0 var(--gutter, 1.5rem);
+}
+
+/* --------------------------------------------------------------------------
+   2. CUSTOMER FORMS (Login / Register / Reset Password)
+   -------------------------------------------------------------------------- */
+
+.customer-form-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 3rem var(--gutter, 1.5rem);
+}
+
+.customer-form-card {
+  width: 100%;
+  max-width: 460px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.customer-form-card__logo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.customer-form-card__logo img {
+  height: 40px;
+  width: auto;
+  pointer-events: none;
+}
+
+.customer-form-card__title {
+  font-family: var(--font-heading);
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--text-color);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.customer-form-card__subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Form */
+.customer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.customer-form .form-group {
+  margin-bottom: 0;
+}
+
+.customer-form__submit {
+  width: 100%;
+  margin-top: 0.25rem;
+}
+
+.customer-form__footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 1.5rem;
+}
+
+.customer-form__footer a {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.customer-form__divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.customer-form__divider::before,
+.customer-form__divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-color);
+}
+
+/* Password input toggle */
+.password-toggle {
+  position: relative;
+}
+
+.password-toggle__btn {
+  position: absolute;
+  right: 0.875rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.password-toggle__btn:hover {
+  color: var(--text-color);
+}
+
+.password-toggle__btn svg {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.password-toggle input {
+  padding-right: 3rem;
+}
+
+/* Password strength */
+.password-strength {
+  margin-top: 0.375rem;
+}
+
+.password-strength__bar {
+  height: 4px;
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+}
+
+.password-strength__fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease, background 0.3s ease;
+}
+
+.password-strength--weak   .password-strength__fill { width: 25%; background: var(--sale-color); }
+.password-strength--fair   .password-strength__fill { width: 50%; background: var(--warning-color); }
+.password-strength--good   .password-strength__fill { width: 75%; background: var(--primary); }
+.password-strength--strong .password-strength__fill { width: 100%; background: var(--success-color); }
+
+.password-strength__label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Form error banner */
+.form-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--sale-color);
+}
+
+.form-error-banner svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 0.0625rem;
+  pointer-events: none;
+}
+
+.form-error-banner ul {
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+.form-error-banner li {
+  margin-bottom: 0.125rem;
+}
+
+/* Form success banner */
+.form-success-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.875rem 1rem;
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--success-color);
+}
+
+.form-success-banner svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 0.0625rem;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   3. ACCOUNT DASHBOARD
+   -------------------------------------------------------------------------- */
+
+.account-page {
+  padding: 2.5rem 0 5rem;
+}
+
+.account-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Account Sidebar */
+.account-sidebar {
+  position: sticky;
+  top: calc(64px + 1.25rem);
+}
+
+.account-sidebar__card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.account-sidebar__avatar-wrap {
+  padding: 2rem 1.5rem 1.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.account-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--bg-card);
+  margin: 0 auto 0.875rem;
+  overflow: hidden;
+}
+
+.account-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.account-sidebar__name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.account-sidebar__email {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.account-nav {
+  list-style: none;
+  padding: 0.5rem 0;
+}
+
+.account-nav__item {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.account-nav__item:last-child {
+  border-bottom: none;
+}
+
+.account-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.account-nav__link:hover {
+  color: var(--primary);
+  background: rgba(108, 99, 255, 0.07);
+}
+
+.account-nav__link--active {
+  color: var(--primary);
+  background: rgba(108, 99, 255, 0.1);
+  font-weight: 600;
+}
+
+.account-nav__link svg {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.account-nav__badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  background: var(--primary);
+  color: var(--bg-card);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+.account-nav__logout {
+  color: var(--sale-color);
+}
+
+.account-nav__logout:hover {
+  background: rgba(239, 68, 68, 0.07);
+  color: var(--sale-color);
+}
+
+/* Account Main Content */
+.account-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.account-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.account-section-title {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* Account stat cards */
+.account-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.account-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  text-align: center;
+  transition: border-color var(--transition-base);
+}
+
+.account-stat-card:hover {
+  border-color: var(--primary);
+}
+
+.account-stat-card__icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(108, 99, 255, 0.1);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.875rem;
+  color: var(--primary);
+}
+
+.account-stat-card__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.account-stat-card__value {
+  font-family: var(--font-heading);
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+}
+
+.account-stat-card__label {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. ORDER TABLE
+   -------------------------------------------------------------------------- */
+
+.order-table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-table thead {
+  background: rgba(108, 99, 255, 0.05);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-table thead th {
+  padding: 0.875rem 1.25rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.order-table thead th:last-child {
+  text-align: right;
+}
+
+.order-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+  transition: background var(--transition-fast);
+}
+
+.order-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.order-table tbody tr:hover {
+  background: rgba(108, 99, 255, 0.04);
+}
+
+.order-table tbody td {
+  padding: 1rem 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.order-table tbody td:last-child {
+  text-align: right;
+}
+
+.order-number {
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.order-number:hover {
+  opacity: 0.8;
+}
+
+.order-date {
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+.order-total {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+/* Order status badges */
+.order-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.order-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.order-status--pending,
+.order-status--open {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--warning-color);
+}
+
+.order-status--pending::before,
+.order-status--open::before {
+  background: var(--warning-color);
+}
+
+.order-status--fulfilled,
+.order-status--paid {
+  background: rgba(34, 197, 94, 0.12);
+  color: var(--success-color);
+}
+
+.order-status--fulfilled::before,
+.order-status--paid::before {
+  background: var(--success-color);
+}
+
+.order-status--cancelled,
+.order-status--refunded {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--sale-color);
+}
+
+.order-status--cancelled::before,
+.order-status--refunded::before {
+  background: var(--sale-color);
+}
+
+.order-status--processing,
+.order-status--in-transit {
+  background: rgba(108, 99, 255, 0.1);
+  color: var(--primary);
+}
+
+.order-status--processing::before,
+.order-status--in-transit::before {
+  background: var(--primary);
+}
+
+/* --------------------------------------------------------------------------
+   5. ORDER DETAIL PAGE
+   -------------------------------------------------------------------------- */
+
+.order-detail-page {
+  padding: 2.5rem 0 5rem;
+}
+
+.order-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.order-detail-header__title {
+  font-family: var(--font-heading);
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 0.375rem;
+}
+
+.order-detail-header__date {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.order-detail-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.order-items-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.order-items-card__header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.order-line-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+  align-items: center;
+}
+
+.order-line-item:last-child {
+  border-bottom: none;
+}
+
+.order-line-item__img {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.15);
+  flex-shrink: 0;
+}
+
+.order-line-item__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  display: block;
+}
+
+.order-line-item__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-line-item__title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  text-decoration: none;
+  display: block;
+}
+
+.order-line-item__title:hover {
+  color: var(--primary);
+}
+
+.order-line-item__variant {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+.order-line-item__qty {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.order-line-item__price {
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--text-color);
+  flex-shrink: 0;
+  text-align: right;
+}
+
+/* Order summary sidebar */
+.order-summary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.order-summary-card__section {
+  padding: 1.125rem 1.25rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.order-summary-card__section:last-child {
+  border-bottom: none;
+}
+
+.order-summary-card__section-title {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.875rem;
+}
+
+.order-address {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0;
+}
+
+.order-address strong {
+  color: var(--text-color);
+}
+
+.order-total-table {
+  width: 100%;
+}
+
+.order-total-table td {
+  padding: 0.375rem 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.order-total-table td:last-child {
+  text-align: right;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.order-total-table .order-grand-total td {
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--border-color);
+  font-weight: 700;
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.order-total-table .order-grand-total td:last-child {
+  color: var(--primary);
+  font-size: 1.125rem;
+}
+
+/* Tracking / Fulfillment */
+.order-tracking {
+  padding: 1.125rem 1.25rem;
+}
+
+.order-tracking__number {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.order-tracking__link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   6. ADDRESS CARD
+   -------------------------------------------------------------------------- */
+
+.addresses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.address-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.375rem;
+  position: relative;
+  transition: border-color var(--transition-base);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.address-card:hover {
+  border-color: var(--primary);
+}
+
+.address-card--default {
+  border-color: var(--primary);
+}
+
+.address-card__default-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1875rem 0.5rem;
+  background: rgba(108, 99, 255, 0.12);
+  color: var(--primary);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.address-card__name {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.address-card__lines {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.address-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.address-card__edit,
+.address-card__delete {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.3125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.address-card__edit {
+  color: var(--primary);
+}
+
+.address-card__edit:hover {
+  background: rgba(108, 99, 255, 0.1);
+}
+
+.address-card__delete {
+  color: var(--sale-color);
+}
+
+.address-card__delete:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.address-card__set-default {
+  margin-left: auto;
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.3125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.address-card__set-default:hover {
+  color: var(--primary);
+  background: rgba(108, 99, 255, 0.07);
+}
+
+/* Add new address card */
+.address-card--add {
+  border-style: dashed;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.address-card--add:hover {
+  background: rgba(108, 99, 255, 0.05);
+}
+
+.address-card--add .address-card__add-icon {
+  width: 48px;
+  height: 48px;
+  background: rgba(108, 99, 255, 0.1);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  margin-bottom: 0.75rem;
+}
+
+.address-card--add .address-card__add-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.address-card--add .address-card__add-text {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Address edit form */
+.address-edit-modal .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. ACCOUNT SETTINGS / PROFILE
+   -------------------------------------------------------------------------- */
+
+.account-settings-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.account-settings-card:last-child {
+  margin-bottom: 0;
+}
+
+.account-settings-card__header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.account-settings-card__title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.account-settings-card__body {
+  padding: 1.5rem;
+}
+
+.account-settings-card__footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Profile info display (read mode) */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.profile-info__row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9375rem;
+}
+
+.profile-info__label {
+  font-weight: 600;
+  color: var(--text-muted);
+  min-width: 120px;
+  flex-shrink: 0;
+}
+
+.profile-info__value {
+  color: var(--text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   8. WISHLIST / SAVED ITEMS
+   -------------------------------------------------------------------------- */
+
+.wishlist-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.wishlist-empty__icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: var(--sale-color);
+}
+
+.wishlist-empty__icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.wishlist-empty__title {
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+}
+
+.wishlist-empty__text {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.75rem;
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   9. LOYALTY / POINTS
+   -------------------------------------------------------------------------- */
+
+.loyalty-card {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  color: var(--bg-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.loyalty-card__bg-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.08;
+  background-image: radial-gradient(circle at 20% 20%, var(--bg-card) 1px, transparent 1px),
+                    radial-gradient(circle at 80% 80%, var(--bg-card) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.loyalty-card__points {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.loyalty-card__label {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin-bottom: 1.5rem;
+}
+
+.loyalty-card__tier {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3125rem 0.875rem;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   10. NOTIFICATION PREFERENCES
+   -------------------------------------------------------------------------- */
+
+.notification-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item__info {
+  flex: 1;
+}
+
+.notification-item__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.125rem;
+}
+
+.notification-item__desc {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-switch__track {
+  position: absolute;
+  inset: 0;
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background var(--transition-base);
+}
+
+.toggle-switch input:checked + .toggle-switch__track {
+  background: var(--primary);
+}
+
+.toggle-switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #ffffff;
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-base);
+  pointer-events: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-switch input:checked ~ .toggle-switch__thumb {
+  transform: translateX(20px);
+}
+
+/* --------------------------------------------------------------------------
+   11. RESPONSIVE — CUSTOMER PAGES
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .account-layout {
+    grid-template-columns: 220px 1fr;
+    gap: 1.75rem;
+  }
+
+  .order-detail-layout {
+    grid-template-columns: 1fr 300px;
+  }
+
+  .account-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-section {
+    padding: 2rem 0 4rem;
+  }
+
+  .account-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .account-sidebar {
+    position: static;
+  }
+
+  .account-sidebar__card {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .account-sidebar__avatar-wrap {
+    display: none;
+  }
+
+  .account-nav {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 0;
+    scrollbar-width: none;
+    min-width: max-content;
+  }
+
+  .account-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .account-nav__item {
+    border-bottom: none;
+    border-right: 1px solid var(--border-color);
+  }
+
+  .account-nav__item:last-child {
+    border-right: none;
+  }
+
+  .account-nav__link {
+    padding: 0.875rem 1rem;
+    white-space: nowrap;
+  }
+
+  .account-nav__link svg {
+    display: none;
+  }
+
+  .account-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .order-detail-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .order-table-wrap {
+    overflow-x: auto;
+    margin: 0 calc(-1 * var(--gutter, 1rem));
+    padding: 0 var(--gutter, 1rem);
+  }
+
+  .customer-form-card {
+    padding: 1.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .addresses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .address-edit-modal .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .customer-section {
+    padding: 1.5rem 0 3rem;
+  }
+
+  .customer-form-page {
+    padding: 1.5rem var(--gutter, 1rem);
+    align-items: flex-start;
+    min-height: auto;
+  }
+
+  .customer-form-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .customer-form-card__title {
+    font-size: 1.375rem;
+  }
+
+  .account-stats {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .account-stat-card {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .account-stat-card__icon {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .order-line-item__img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .order-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .account-settings-card__body {
+    padding: 1.125rem;
+  }
+
+  .account-settings-card__footer {
+    padding: 0.875rem 1.125rem;
+    flex-direction: column;
+  }
+
+  .account-settings-card__footer .btn {
+    width: 100%;
+  }
+
+  .loyalty-card {
+    padding: 1.5rem;
+  }
+
+  .loyalty-card__points {
+    font-size: 2.25rem;
+  }
+
+  .profile-info__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.125rem;
+  }
+
+  .profile-info__label {
+    min-width: auto;
+  }
+}
