@@ -1,0 +1,348 @@
+<style>
+  .testimonials-section {
+    padding: var(--section-padding-v, 5rem) 0;
+    background: var(--page-bg, #0a0a0f);
+    overflow: hidden;
+  }
+
+  .testimonials__header {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto 3rem;
+    padding: 0 var(--spacing-md, 1.5rem);
+    text-align: center;
+  }
+
+  .testimonials__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text-color, #e2e8f0);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .testimonials__title-accent {
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    border-radius: 999px;
+    margin: 0.75rem auto 0;
+  }
+
+  /* ── Marquee track ── */
+  .testimonials__marquee-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .testimonials__marquee-track {
+    display: flex;
+    gap: var(--marquee-gap, 1.5rem);
+    width: max-content;
+    animation: marqueeScroll var(--marquee-duration, 40s) linear infinite;
+  }
+
+  @keyframes marqueeScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── Individual card ── */
+  .review-card {
+    flex-shrink: 0;
+    width: var(--review-card-width, 320px);
+    background: var(--surface, #1a1a2e);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg, 16px);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .review-card::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.25rem;
+    right: 1.25rem;
+    font-size: 5rem;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: var(--primary, #a78bfa);
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  /* Stars */
+  .review-card__stars {
+    display: flex;
+    gap: 2px;
+    font-size: 1.1rem;
+    color: var(--star-color, #fbbf24);
+    line-height: 1;
+  }
+
+  .review-card__star--empty {
+    opacity: 0.25;
+  }
+
+  /* Review text */
+  .review-card__text {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-muted, #94a3b8);
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Reviewer */
+  .review-card__reviewer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .review-card__avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid rgba(167, 139, 250, 0.3);
+  }
+
+  .review-card__avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .review-card__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-color, #e2e8f0);
+    margin: 0;
+  }
+
+  .review-card__verified {
+    font-size: 0.75rem;
+    color: var(--success, #34d399);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .review-card__verified svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* Empty state */
+  .testimonials__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted, #64748b);
+    font-size: 0.9rem;
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+  }
+
+  @media (max-width: 599px) {
+    .review-card {
+      --review-card-width: 280px;
+    }
+  }
+</style>
+
+<section class="testimonials-section" aria-labelledby="testimonials-heading-{{ section.id }}">
+
+  {%- if section.settings.title != blank -%}
+    <header class="testimonials__header">
+      <h2 class="testimonials__title" id="testimonials-heading-{{ section.id }}">
+        {{ section.settings.title }}
+      </h2>
+      <span class="testimonials__title-accent" aria-hidden="true"></span>
+    </header>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+
+    {%- assign marquee_duration = section.settings.marquee_speed | default: 40 -%}
+
+    {%- comment -%} Capture block HTML once, output twice for seamless loop {%- endcomment -%}
+    {%- capture marquee_items -%}
+      {%- for block in section.blocks -%}
+        {%- assign star_rating = block.settings.star_rating | default: 5 -%}
+        <article class="review-card" {{ block.shopify_attributes }}>
+
+          {%- comment -%} Stars {%- endcomment -%}
+          <div class="review-card__stars" aria-label="{{ 'sections.testimonials.stars' | t: count: star_rating }}">
+            {%- for i in (1..5) -%}
+              {%- if i <= star_rating -%}
+                <span class="review-card__star" aria-hidden="true">&#9733;</span>
+              {%- else -%}
+                <span class="review-card__star review-card__star--empty" aria-hidden="true">&#9733;</span>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- comment -%} Review text {%- endcomment -%}
+          {%- if block.settings.review_text != blank -%}
+            <p class="review-card__text">{{ block.settings.review_text }}</p>
+          {%- endif -%}
+
+          {%- comment -%} Reviewer info {%- endcomment -%}
+          <div class="review-card__reviewer">
+            {%- if block.settings.reviewer_image != blank -%}
+              <img
+                class="review-card__avatar"
+                src="{{ block.settings.reviewer_image | img_url: '80x80', crop: 'center' }}"
+                alt="{{ block.settings.reviewer_name | default: 'Reviewer' | escape }}"
+                width="40"
+                height="40"
+                loading="lazy">
+            {%- else -%}
+              <div class="review-card__avatar-placeholder" aria-hidden="true">
+                {{- block.settings.reviewer_name | default: '?' | slice: 0 | upcase -}}
+              </div>
+            {%- endif -%}
+            <div>
+              {%- if block.settings.reviewer_name != blank -%}
+                <p class="review-card__name">{{ block.settings.reviewer_name }}</p>
+              {%- endif -%}
+              <p class="review-card__verified">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                {{ 'sections.testimonials.verified' | t }}
+              </p>
+            </div>
+          </div>
+
+        </article>
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    <div class="testimonials__marquee-wrap" aria-hidden="true">
+      <div class="testimonials__marquee-track"
+           style="--marquee-duration: {{ marquee_duration }}s;">
+        {{ marquee_items }}
+        {{ marquee_items }}
+      </div>
+    </div>
+
+  {%- else -%}
+    <div class="testimonials__empty">
+      <p>{{ 'sections.testimonials.no_reviews' | t }}</p>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "class": "testimonials-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "default": 40,
+      "label": "Scroll Speed (s)",
+      "info": "Lower number = faster scroll"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "reviewer_name",
+          "label": "Reviewer Name",
+          "default": "Happy Customer"
+        },
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review Text",
+          "default": "This product exceeded my expectations. Absolutely love it!"
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5,
+          "label": "Star Rating"
+        },
+        {
+          "type": "image_picker",
+          "id": "reviewer_image",
+          "label": "Reviewer Photo"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Sarah M.",
+            "review_text": "Absolutely love this product! The quality is outstanding and shipping was super fast.",
+            "star_rating": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "James T.",
+            "review_text": "Exceeded my expectations. Will definitely be ordering again very soon.",
+            "star_rating": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Emily R.",
+            "review_text": "Great value for money. Highly recommend to anyone looking for quality.",
+            "star_rating": 4
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

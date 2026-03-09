@@ -1,0 +1,135 @@
+{%- if settings.announcement_show -%}
+<style>
+  .announcement-bar {
+    background: var(--announce-bg, #7c3aed);
+    color: var(--announce-text, #ffffff);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .announcement-bar[hidden] {
+    display: none;
+  }
+
+  .announcement-bar__inner {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+    padding: 0.65rem var(--spacing-md, 1.5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 40px;
+  }
+
+  .announcement-bar__text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    flex: 1;
+    text-align: center;
+  }
+
+  .announcement-bar__text a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.15s ease;
+  }
+
+  .announcement-bar__text a:hover {
+    opacity: 0.8;
+  }
+
+  .announcement-bar__dismiss {
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background: transparent;
+    border: none;
+    color: var(--announce-text, #ffffff);
+    opacity: 0.7;
+    cursor: pointer;
+    border-radius: var(--radius-sm, 4px);
+    transition: opacity 0.2s ease, background 0.2s ease;
+    padding: 0;
+    flex-shrink: 0;
+  }
+
+  .announcement-bar__dismiss:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .announcement-bar__dismiss svg {
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+  }
+</style>
+
+<div class="announcement-bar"
+     id="announcement-bar"
+     role="region"
+     aria-label="{{ 'sections.announcement_bar.label' | t }}">
+  <div class="announcement-bar__inner">
+    <p class="announcement-bar__text">
+      {%- if settings.announcement_link != blank -%}
+        <a href="{{ settings.announcement_link }}">
+          {{ settings.announcement_text }}
+        </a>
+      {%- else -%}
+        {{ settings.announcement_text }}
+      {%- endif -%}
+    </p>
+    <button
+      class="announcement-bar__dismiss"
+      id="announcement-bar-dismiss"
+      aria-label="{{ 'sections.announcement_bar.dismiss' | t }}"
+      type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var STORAGE_KEY = 'announcement-bar-dismissed-{{ settings.announcement_text | md5 }}';
+    var bar         = document.getElementById('announcement-bar');
+    var btn         = document.getElementById('announcement-bar-dismiss');
+
+    if (!bar) return;
+
+    try {
+      if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+        bar.hidden = true;
+        return;
+      }
+    } catch (_) {}
+
+    btn.addEventListener('click', function () {
+      bar.hidden = true;
+      try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (_) {}
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement Bar",
+  "class": "announcement-bar-section",
+  "settings": []
+}
+{% endschema %}

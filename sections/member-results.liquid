@@ -1,0 +1,320 @@
+<style>
+  .member-results-section {
+    padding: var(--section-padding-v, 5rem) 0;
+    background: var(--page-bg, #0a0a0f);
+    overflow: hidden;
+  }
+
+  .member-results__header {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto 3rem;
+    padding: 0 var(--spacing-md, 1.5rem);
+    text-align: center;
+  }
+
+  .member-results__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text-color, #e2e8f0);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .member-results__title-accent {
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    border-radius: 999px;
+    margin: 0.75rem auto 0;
+  }
+
+  .member-results__subtitle {
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    color: var(--text-muted, #94a3b8);
+    line-height: 1.65;
+    max-width: 56ch;
+    margin: 1.25rem auto 0;
+  }
+
+  /* ── Marquee ── */
+  .member-results__marquee-wrap {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  }
+
+  .member-results__marquee-track {
+    display: flex;
+    gap: var(--results-gap, 1.25rem);
+    width: max-content;
+    animation: resultsScroll var(--carousel-duration, 50s) linear infinite;
+  }
+
+  @keyframes resultsScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── Result card ── */
+  .result-card {
+    flex-shrink: 0;
+    width: var(--item-width, 280px);
+    border-radius: var(--radius-lg, 16px);
+    overflow: hidden;
+    position: relative;
+    background: var(--surface, #1a1a2e);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+    cursor: default;
+  }
+
+  .result-card__image-wrap {
+    position: relative;
+    width: 100%;
+    height: var(--item-height, 360px);
+    overflow: hidden;
+    background: var(--surface-2, #16162a);
+  }
+
+  .result-card__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .result-card:hover .result-card__image-wrap img {
+    transform: scale(1.04);
+  }
+
+  /* Placeholder for empty image */
+  .result-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(99, 102, 241, 0.05) 100%);
+  }
+
+  .result-card__placeholder svg {
+    width: 48px;
+    height: 48px;
+    color: var(--text-muted, #64748b);
+    opacity: 0.4;
+  }
+
+  /* Caption overlay */
+  .result-card__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1.25rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    transform: translateY(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .result-card:hover .result-card__caption,
+  .result-card__caption.always-show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Badge for always-show captions */
+  .result-card__caption-badge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.6rem 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #fff;
+    text-align: center;
+    line-height: 1.35;
+  }
+
+  /* Empty state */
+  .member-results__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted, #64748b);
+    font-size: 0.9rem;
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+  }
+</style>
+
+<section class="member-results-section" aria-labelledby="member-results-heading-{{ section.id }}">
+
+  {%- if section.settings.title != blank or section.settings.subtitle != blank -%}
+    <header class="member-results__header">
+      {%- if section.settings.title != blank -%}
+        <h2 class="member-results__title" id="member-results-heading-{{ section.id }}">
+          {{ section.settings.title }}
+        </h2>
+        <span class="member-results__title-accent" aria-hidden="true"></span>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="member-results__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </header>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+
+    {%- assign item_width     = section.settings.item_width    | default: 280 -%}
+    {%- assign item_height    = section.settings.item_height   | default: 360 -%}
+    {%- assign carousel_speed = section.settings.carousel_speed | default: 50 -%}
+    {%- assign show_captions  = section.settings.show_captions -%}
+
+    {%- comment -%} Build the img_url size string dynamically (variables can't go inside string literals) {%- endcomment -%}
+    {%- assign img_size = item_width | append: 'x' | append: item_height -%}
+
+    {%- comment -%} Capture items once, output twice for seamless infinite scroll {%- endcomment -%}
+    {%- capture carousel_items -%}
+      {%- for block in section.blocks -%}
+        <div class="result-card"
+             style="--item-width: {{ item_width }}px; --item-height: {{ item_height }}px;"
+             {{ block.shopify_attributes }}>
+          <div class="result-card__image-wrap">
+            {%- if block.settings.image != blank -%}
+              <img
+                src="{{ block.settings.image | img_url: img_size, crop: 'center' }}"
+                alt="{{ block.settings.caption | default: block.settings.image.alt | escape }}"
+                width="{{ item_width }}"
+                height="{{ item_height }}"
+                loading="lazy">
+            {%- else -%}
+              <div class="result-card__placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            {%- endif -%}
+            {%- if block.settings.caption != blank and show_captions -%}
+              <div class="result-card__caption-badge">{{ block.settings.caption }}</div>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    <div class="member-results__marquee-wrap" aria-hidden="true">
+      <div class="member-results__marquee-track"
+           style="--carousel-duration: {{ carousel_speed }}s;">
+        {{ carousel_items }}
+        {{ carousel_items }}
+      </div>
+    </div>
+
+  {%- else -%}
+    <div class="member-results__empty">
+      <p>{{ 'sections.member_results.no_items' | t }}</p>
+    </div>
+  {%- endif -%}
+
+</section>
+
+{% schema %}
+{
+  "name": "Member Results",
+  "class": "member-results-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Member Results"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Real results from our community"
+    },
+    {
+      "type": "range",
+      "id": "item_width",
+      "min": 200,
+      "max": 400,
+      "step": 20,
+      "default": 280,
+      "label": "Card Width (px)"
+    },
+    {
+      "type": "range",
+      "id": "item_height",
+      "min": 200,
+      "max": 500,
+      "step": 20,
+      "default": 360,
+      "label": "Card Height (px)"
+    },
+    {
+      "type": "range",
+      "id": "carousel_speed",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "label": "Carousel Speed (s)",
+      "info": "Lower number = faster scroll"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_captions",
+      "label": "Show captions",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "result",
+      "name": "Result",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Result Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Amazing result!"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Member Results",
+      "blocks": [
+        { "type": "result", "settings": { "caption": "Before & After" } },
+        { "type": "result", "settings": { "caption": "Week 4 Progress" } },
+        { "type": "result", "settings": { "caption": "Transformation" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

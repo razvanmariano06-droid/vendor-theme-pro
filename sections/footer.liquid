@@ -1,0 +1,361 @@
+<style>
+  .footer-section {
+    background: var(--footer-bg, #0d0d1a);
+    color: var(--footer-text, #94a3b8);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding-top: var(--spacing-xl, 4rem);
+  }
+
+  .footer-inner {
+    max-width: var(--container-width, 1280px);
+    margin: 0 auto;
+    padding: 0 var(--spacing-md, 1.5rem);
+  }
+
+  /* ── Columns grid ── */
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  @media (max-width: 1023px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 599px) {
+    .footer-columns {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .footer-col-title {
+    font-family: var(--font-heading, inherit);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-color, #e2e8f0);
+    margin: 0 0 1.25rem;
+  }
+
+  /* ── Column 1: Brand ── */
+  .footer-brand-logo a {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    margin-bottom: 1rem;
+  }
+
+  .footer-brand-logo img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .footer-brand-name {
+    font-family: var(--font-heading, inherit);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary, #a78bfa);
+    letter-spacing: 0.02em;
+  }
+
+  .footer-tagline {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--text-muted, #64748b);
+    margin: 0.75rem 0 0;
+  }
+
+  /* ── Column 2: Links ── */
+  .footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-links a {
+    font-size: 0.875rem;
+    color: var(--footer-text, #94a3b8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .footer-links a::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--primary, #a78bfa);
+    opacity: 0;
+    transform: scale(0);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .footer-links a:hover {
+    color: var(--primary, #a78bfa);
+  }
+
+  .footer-links a:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* ── Column 3: Social ── */
+  .footer-social-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── Column 4: Newsletter ── */
+  .footer-newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0;
+  }
+
+  .footer-newsletter-desc {
+    font-size: 0.825rem;
+    color: var(--text-muted, #64748b);
+    line-height: 1.6;
+    margin: 0 0 0.5rem;
+  }
+
+  .footer-newsletter-input-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .footer-newsletter-input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.65rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius, 8px);
+    color: var(--text-color, #e2e8f0);
+    font-size: 0.875rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .footer-newsletter-input::placeholder {
+    color: var(--text-muted, #64748b);
+  }
+
+  .footer-newsletter-input:focus {
+    border-color: var(--primary, #a78bfa);
+    background: rgba(167, 139, 250, 0.05);
+  }
+
+  .footer-newsletter-btn {
+    padding: 0.65rem 1.25rem;
+    background: var(--primary, #a78bfa);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius, 8px);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .footer-newsletter-btn:hover {
+    background: var(--primary-hover, #8b5cf6);
+    transform: translateY(-1px);
+  }
+
+  .footer-newsletter-success {
+    display: none;
+    font-size: 0.825rem;
+    color: var(--success, #34d399);
+    margin-top: 0.25rem;
+  }
+
+  /* ── Bottom bar ── */
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1.25rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .footer-copyright {
+    font-size: 0.8rem;
+    color: var(--text-muted, #64748b);
+  }
+
+  .footer-bottom-links {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-bottom-links a {
+    font-size: 0.8rem;
+    color: var(--text-muted, #64748b);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .footer-bottom-links a:hover {
+    color: var(--primary, #a78bfa);
+  }
+</style>
+
+<footer class="footer-section" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-columns">
+
+      {%- comment -%} Column 1 – Brand / Logo + Tagline {%- endcomment -%}
+      <div class="footer-col footer-col--brand">
+        <div class="footer-brand-logo">
+          <a href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+            {%- if settings.logo_image != blank -%}
+              {% render 'image-lazy', image: settings.logo_image, alt: shop.name %}
+            {%- else -%}
+              <span class="footer-brand-name">{{ settings.logo_text | default: shop.name }}</span>
+            {%- endif -%}
+          </a>
+        </div>
+        {%- if section.settings.footer_tagline != blank -%}
+          <p class="footer-tagline">{{ section.settings.footer_tagline }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Column 2 – Quick Links {%- endcomment -%}
+      <div class="footer-col footer-col--links">
+        <p class="footer-col-title">{{ 'layout.footer.quick_links' | t }}</p>
+        {%- if linklists['footer'].links.size > 0 -%}
+          <ul class="footer-links" role="list">
+            {%- for link in linklists['footer'].links -%}
+              <li>
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- comment -%} Column 3 – Social Icons {%- endcomment -%}
+      <div class="footer-col footer-col--social">
+        <p class="footer-col-title">{{ 'layout.footer.follow_us' | t }}</p>
+        <div class="footer-social-wrap">
+          {% render 'social-icons' %}
+        </div>
+      </div>
+
+      {%- comment -%} Column 4 – Newsletter {%- endcomment -%}
+      {%- if section.settings.show_newsletter -%}
+        <div class="footer-col footer-col--newsletter">
+          <p class="footer-col-title">{{ 'layout.footer.newsletter_title' | t }}</p>
+          <p class="footer-newsletter-desc">{{ 'layout.footer.newsletter_desc' | t }}</p>
+          <form class="footer-newsletter-form" action="/contact#footer-newsletter" method="post" id="footer-newsletter-form" accept-charset="UTF-8">
+            <input type="hidden" name="form_type" value="customer">
+            <input type="hidden" name="utf8" value="✓">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="footer-newsletter-input-row">
+              <input
+                class="footer-newsletter-input"
+                type="email"
+                name="contact[email]"
+                id="footer-newsletter-email"
+                placeholder="{{ 'layout.footer.newsletter_placeholder' | t }}"
+                autocomplete="email"
+                aria-label="{{ 'layout.footer.newsletter_placeholder' | t }}"
+                required>
+              <button type="submit" class="footer-newsletter-btn">
+                {{ 'layout.footer.newsletter_submit' | t }}
+              </button>
+            </div>
+            <p class="footer-newsletter-success" id="footer-newsletter-success" role="status">
+              {{ 'layout.footer.newsletter_success' | t }}
+            </p>
+          </form>
+        </div>
+      {%- endif -%}
+
+    </div>{%- comment -%} /.footer-columns {%- endcomment -%}
+
+    {%- comment -%} Bottom bar {%- endcomment -%}
+    <div class="footer-bottom">
+      <p class="footer-copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ 'layout.footer.all_rights_reserved' | t }}
+      </p>
+      {%- if linklists['footer-legal'].links.size > 0 -%}
+        <ul class="footer-bottom-links" role="list">
+          {%- for link in linklists['footer-legal'].links -%}
+            <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var form    = document.getElementById('footer-newsletter-form');
+    var success = document.getElementById('footer-newsletter-success');
+    if (!form) return;
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var data = new FormData(form);
+      fetch(form.action, { method: 'POST', body: data })
+        .then(function () {
+          form.reset();
+          if (success) {
+            success.style.display = 'block';
+            setTimeout(function () { success.style.display = 'none'; }, 5000);
+          }
+        })
+        .catch(function () {
+          form.submit();
+        });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Footer",
+  "class": "footer-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "footer_tagline",
+      "label": "Tagline",
+      "default": "Premium products crafted with care."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Show newsletter signup",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

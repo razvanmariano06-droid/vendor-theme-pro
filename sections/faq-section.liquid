@@ -1,0 +1,269 @@
+<style>
+  .faq-section {
+    padding: var(--section-padding-v, 5rem) 0;
+    background: var(--page-bg, #0a0a0f);
+  }
+
+  .faq__inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md, 1.5rem);
+  }
+
+  .faq__header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .faq__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 800;
+    color: var(--text-color, #e2e8f0);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  .faq__title-accent {
+    display: block;
+    width: 48px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary, #a78bfa), var(--secondary, #818cf8));
+    border-radius: 999px;
+    margin: 0.75rem auto 0;
+  }
+
+  /* ── Accordion using <details>/<summary> ── */
+  .faq__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .faq-item {
+    background: var(--surface, #1a1a2e);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg, 12px);
+    overflow: hidden;
+    transition: border-color 0.25s ease;
+  }
+
+  .faq-item[open] {
+    border-color: rgba(167, 139, 250, 0.3);
+  }
+
+  .faq-item summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    transition: background 0.2s ease;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    background: rgba(167, 139, 250, 0.05);
+  }
+
+  .faq-item summary:focus-visible {
+    background: rgba(167, 139, 250, 0.07);
+    outline: 2px solid var(--primary, #a78bfa);
+    outline-offset: -2px;
+  }
+
+  .faq-item__question {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color, #e2e8f0);
+    line-height: 1.4;
+    flex: 1;
+    margin: 0;
+    transition: color 0.2s ease;
+  }
+
+  .faq-item[open] .faq-item__question {
+    color: var(--primary, #a78bfa);
+  }
+
+  .faq-item__icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--text-muted, #64748b);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s ease;
+  }
+
+  .faq-item[open] .faq-item__icon {
+    transform: rotate(180deg);
+    color: var(--primary, #a78bfa);
+  }
+
+  /* Animated content panel */
+  .faq-item__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .faq-item[open] .faq-item__body {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item__body-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .faq-item__answer {
+    padding: 0 1.5rem 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--text-muted, #94a3b8);
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 1.125rem;
+  }
+
+  .faq-item__answer a {
+    color: var(--primary, #a78bfa);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Empty state */
+  .faq__empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted, #64748b);
+    font-size: 0.9rem;
+  }
+</style>
+
+<section class="faq-section" aria-labelledby="faq-heading-{{ section.id }}">
+  <div class="faq__inner">
+
+    {%- if section.settings.title != blank -%}
+      <header class="faq__header">
+        <h2 class="faq__title" id="faq-heading-{{ section.id }}">
+          {{ section.settings.title }}
+        </h2>
+        <span class="faq__title-accent" aria-hidden="true"></span>
+      </header>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="faq__list" role="list">
+        {%- for block in section.blocks -%}
+          <details class="faq-item" {{ block.shopify_attributes }} role="listitem">
+            <summary aria-expanded="false">
+              <span class="faq-item__question">{{ block.settings.question }}</span>
+              <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </summary>
+            <div class="faq-item__body">
+              <div class="faq-item__body-inner">
+                {%- if block.settings.answer != blank -%}
+                  <p class="faq-item__answer">{{ block.settings.answer }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="faq__empty">
+        <p>{{ 'sections.faq.no_items' | t }}</p>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<script>
+  (function () {
+    /* Sync aria-expanded with the native open attribute */
+    document.querySelectorAll('.faq-item').forEach(function (details) {
+      var summary = details.querySelector('summary');
+      if (!summary) return;
+
+      /* Initial state */
+      summary.setAttribute('aria-expanded', details.open ? 'true' : 'false');
+
+      details.addEventListener('toggle', function () {
+        summary.setAttribute('aria-expanded', details.open ? 'true' : 'false');
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "class": "faq-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Frequently Asked Questions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What makes your products unique?"
+        },
+        {
+          "type": "textarea",
+          "id": "answer",
+          "label": "Answer",
+          "default": "Our products are crafted with premium materials and undergo rigorous quality checks to ensure you receive only the best."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "We offer a 30-day hassle-free return policy. If you are not satisfied with your purchase, contact our support team and we will make it right."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "Standard shipping takes 3-5 business days. Express options are available at checkout. International orders may take 7-14 business days."
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you offer wholesale pricing?",
+            "answer": "Yes! We offer bulk discounts for orders over 50 units. Please reach out via our contact page for a custom quote."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
