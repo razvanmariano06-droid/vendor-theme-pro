@@ -1,0 +1,216 @@
+{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+{%- if s.show_section == false -%}
+  {%- comment -%} Section hidden by user {%- endcomment -%}
+{%- else -%}
+
+<section
+  id="image-banner-{{ section.id }}"
+  class="image-banner"
+  style="min-height: {{ s.min_height }}px;"
+>
+  {%- if s.bg_image != blank -%}
+    <div class="image-banner__bg">
+      <img
+        src="{{ s.bg_image | image_url: width: 1920 }}"
+        srcset="
+          {{ s.bg_image | image_url: width: 600 }} 600w,
+          {{ s.bg_image | image_url: width: 1024 }} 1024w,
+          {{ s.bg_image | image_url: width: 1440 }} 1440w,
+          {{ s.bg_image | image_url: width: 1920 }} 1920w
+        "
+        sizes="100vw"
+        alt="{{ s.bg_image.alt | escape | default: s.title | escape }}"
+        loading="lazy"
+        width="{{ s.bg_image.width }}"
+        height="{{ s.bg_image.height }}"
+      >
+    </div>
+  {%- endif -%}
+
+  <div
+    class="image-banner__overlay"
+    style="opacity: {{ s.overlay_opacity | divided_by: 100.0 }};"
+    aria-hidden="true"
+  ></div>
+
+  <div class="image-banner__content image-banner__content--{{ s.text_align }}">
+    {%- if s.title != blank -%}
+      <h2 class="image-banner__title">{{ s.title | escape }}</h2>
+    {%- endif -%}
+
+    {%- if s.subtitle != blank -%}
+      <p class="image-banner__subtitle">{{ s.subtitle | escape }}</p>
+    {%- endif -%}
+
+    {%- if s.cta_text != blank and s.cta_link != blank -%}
+      <a
+        href="{{ s.cta_link }}"
+        class="image-banner__cta btn btn--primary"
+      >
+        {{ s.cta_text | escape }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- endif -%}
+
+<style>
+  #image-banner-{{ section.id }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    min-height: {{ s.min_height }}px;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__overlay {
+    position: absolute;
+    inset: 0;
+    background: #000;
+    z-index: 1;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    max-width: 860px;
+    width: 100%;
+    color: var(--color-banner-text, #fff);
+  }
+
+  #image-banner-{{ section.id }} .image-banner__content--left   { text-align: left;   margin-right: auto; }
+  #image-banner-{{ section.id }} .image-banner__content--center { text-align: center; margin: 0 auto; }
+  #image-banner-{{ section.id }} .image-banner__content--right  { text-align: right;  margin-left: auto; }
+
+  #image-banner-{{ section.id }} .image-banner__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+    color: inherit;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__subtitle {
+    font-size: clamp(1rem, 2vw, 1.375rem);
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    color: inherit;
+    opacity: 0.9;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__cta {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+    border: 2px solid transparent;
+    border-radius: var(--btn-radius, 4px);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  #image-banner-{{ section.id }} .image-banner__cta:hover {
+    background: var(--primary-hover, #444);
+    border-color: var(--primary-hover, #444);
+  }
+
+  @media (max-width: 768px) {
+    #image-banner-{{ section.id }} {
+      min-height: calc({{ s.min_height }}px * 0.65);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Image Banner",
+  "tag": "section",
+  "class": "section-image-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum Height (px)",
+      "min": 200,
+      "max": 600,
+      "step": 50,
+      "default": 400
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay Opacity (%)",
+      "min": 0,
+      "max": 90,
+      "step": 10,
+      "default": 40
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Welcome to Our Store"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Discover our latest collection"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "default": "center",
+      "options": [
+        { "value": "left",   "label": "Left"   },
+        { "value": "center", "label": "Center" },
+        { "value": "right",  "label": "Right"  }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Label",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Banner"
+    }
+  ]
+}
+{% endschema %}

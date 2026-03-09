@@ -1,0 +1,167 @@
+{%- assign s = section.settings -%}
+{%- assign collection = collections[s.collection] -%}
+{%- assign section_title = s.title | default: collection.title -%}
+
+<section
+  id="featured-collection-{{ section.id }}"
+  class="featured-collection"
+>
+  {%- if section_title != blank -%}
+    <div class="featured-collection__header">
+      <h2 class="featured-collection__title">{{ section_title | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  {%- if collection != blank and collection.products.size > 0 -%}
+    <div
+      class="featured-collection__grid"
+      style="--columns: {{ s.columns }};"
+    >
+      {%- for product in collection.products limit: s.product_limit -%}
+        {% render 'product-card', product: product, index: forloop.index0 %}
+      {%- endfor -%}
+    </div>
+
+    {%- if s.show_view_all and collection.products.size > s.product_limit -%}
+      <div class="featured-collection__footer">
+        <a
+          href="{{ collection.url }}"
+          class="featured-collection__view-all btn btn--secondary"
+        >
+          {{ s.view_all_text | default: 'View All' | escape }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  {%- else -%}
+    <div class="featured-collection__empty">
+      <p>{{ 'sections.featured_collection.no_products' | t }}</p>
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  #featured-collection-{{ section.id }} {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    color: var(--text-color, #111);
+    margin: 0;
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 4), 1fr);
+    gap: var(--grid-gap, 1.5rem);
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__footer {
+    text-align: center;
+    margin-top: 2.5rem;
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__view-all {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 2px solid var(--primary, #222);
+    color: var(--primary, #222);
+    background: transparent;
+    border-radius: var(--btn-radius, 4px);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__view-all:hover {
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+  }
+
+  #featured-collection-{{ section.id }} .featured-collection__empty {
+    text-align: center;
+    color: var(--text-color-muted, #777);
+    padding: 3rem 0;
+  }
+
+  @media (max-width: 1024px) {
+    #featured-collection-{{ section.id }} .featured-collection__grid {
+      grid-template-columns: repeat(
+        min(var(--columns, 4), 3),
+        1fr
+      );
+    }
+  }
+
+  @media (max-width: 640px) {
+    #featured-collection-{{ section.id }} .featured-collection__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "info": "Leave blank to use the collection title."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products to Show",
+      "min": 4,
+      "max": 12,
+      "step": 2,
+      "default": 6
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show \"View All\" Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "\"View All\" Button Label",
+      "default": "View All"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

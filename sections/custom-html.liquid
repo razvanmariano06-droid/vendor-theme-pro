@@ -1,0 +1,30 @@
+{%- assign s = section.settings -%}
+
+<section
+  id="custom-html-{{ section.id }}"
+  class="custom-html"
+>
+  {%- if s.html != blank -%}
+    {{ s.html }}
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Custom HTML",
+  "tag": "section",
+  "class": "section-custom-html",
+  "settings": [
+    {
+      "type": "html",
+      "id": "html",
+      "label": "Custom HTML/Code"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom HTML"
+    }
+  ]
+}
+{% endschema %}

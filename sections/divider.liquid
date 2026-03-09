@@ -1,0 +1,91 @@
+{%- assign s = section.settings -%}
+
+<div
+  id="divider-{{ section.id }}"
+  class="divider divider--{{ s.width }}"
+  role="separator"
+  aria-hidden="true"
+>
+  <hr class="divider__rule">
+</div>
+
+<style>
+  #divider-{{ section.id }} {
+    padding: 0 var(--page-gutter, 1.5rem);
+  }
+
+  #divider-{{ section.id }}.divider--full {
+    padding: 0;
+  }
+
+  #divider-{{ section.id }}.divider--container {
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+  }
+
+  #divider-{{ section.id }} .divider__rule {
+    border: none;
+    border-top: {{ s.thickness }}px solid {{ s.color }};
+    margin: 0;
+    width: 100%;
+
+    {%- if s.show_gradient -%}
+      background: linear-gradient(
+        to right,
+        transparent,
+        {{ s.color }} 20%,
+        {{ s.color }} 80%,
+        transparent
+      );
+      border-top-color: transparent;
+      height: {{ s.thickness }}px;
+      border: none;
+    {%- endif -%}
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Divider",
+  "tag": "div",
+  "class": "section-divider",
+  "settings": [
+    {
+      "type": "color",
+      "id": "color",
+      "label": "Line Color",
+      "default": "#333333"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "container",
+      "options": [
+        { "value": "full",      "label": "Full Width" },
+        { "value": "container", "label": "Container"  }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "thickness",
+      "label": "Thickness (px)",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gradient",
+      "label": "Fade Edges (Gradient)",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Divider"
+    }
+  ]
+}
+{% endschema %}

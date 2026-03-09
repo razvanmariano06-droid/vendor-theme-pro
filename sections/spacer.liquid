@@ -1,0 +1,54 @@
+{%- assign s = section.settings -%}
+
+<div
+  id="spacer-{{ section.id }}"
+  class="spacer"
+  aria-hidden="true"
+></div>
+
+<style>
+  #spacer-{{ section.id }} {
+    display: block;
+    width: 100%;
+    height: {{ s.height_desktop }}px;
+  }
+
+  @media (max-width: 768px) {
+    #spacer-{{ section.id }} {
+      height: {{ s.height_mobile }}px;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Spacer",
+  "tag": "div",
+  "class": "section-spacer",
+  "settings": [
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "label": "Height — Desktop (px)",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "label": "Height — Mobile (px)",
+      "min": 10,
+      "max": 100,
+      "step": 10,
+      "default": 30
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spacer"
+    }
+  ]
+}
+{% endschema %}

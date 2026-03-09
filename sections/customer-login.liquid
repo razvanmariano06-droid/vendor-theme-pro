@@ -1,0 +1,233 @@
+<section
+  id="customer-login-{{ section.id }}"
+  class="customer-login account-section"
+>
+  <div class="account-section__inner">
+    <h1 class="account-section__title">{{ 'customer.login.title' | t | default: "Sign In" }}</h1>
+
+    {%- if customer -%}
+      <p class="account-section__notice">
+        {{ 'customer.login.already_signed_in' | t | default: "You are already signed in." }}
+        <a href="/account">{{ 'customer.login.view_account' | t | default: "View your account" }}</a>
+      </p>
+    {%- else -%}
+
+      {%- form 'customer_login', id: 'customer-login-form-{{ section.id }}', class: 'account-form' -%}
+        {%- if form.errors -%}
+          <div class="account-form__errors" role="alert" aria-live="assertive">
+            <ul>
+              {%- for error in form.errors -%}
+                <li>
+                  {%- if error == 'form' -%}
+                    {{ form.errors.messages[error] }}
+                  {%- else -%}
+                    {{ form.errors.translated_fields[error] | capitalize }}
+                    {{ form.errors.messages[error] }}
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+
+        <div class="account-form__field">
+          <label for="login-email-{{ section.id }}" class="account-form__label">
+            {{ 'customer.login.email' | t | default: "Email" }}
+          </label>
+          <input
+            id="login-email-{{ section.id }}"
+            type="email"
+            name="customer[email]"
+            class="account-form__input"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            aria-required="true"
+            {%- if form.email %}value="{{ form.email | escape }}"{% endif -%}
+          >
+        </div>
+
+        <div class="account-form__field">
+          <div class="account-form__label-row">
+            <label for="login-password-{{ section.id }}" class="account-form__label">
+              {{ 'customer.login.password' | t | default: "Password" }}
+            </label>
+            <a
+              href="/account/recover"
+              class="account-form__forgot"
+            >
+              {{ 'customer.login.forgot_password' | t | default: "Forgot password?" }}
+            </a>
+          </div>
+          <input
+            id="login-password-{{ section.id }}"
+            type="password"
+            name="customer[password]"
+            class="account-form__input"
+            autocomplete="current-password"
+            required
+            aria-required="true"
+          >
+        </div>
+
+        <button type="submit" class="account-form__submit btn btn--primary btn--full">
+          {{ 'customer.login.sign_in' | t | default: "Sign In" }}
+        </button>
+      {%- endform -%}
+
+      <p class="account-section__register-link">
+        {{ 'customer.login.no_account' | t | default: "Don't have an account?" }}
+        <a href="/account/register">{{ 'customer.login.create_account' | t | default: "Create account" }}</a>
+      </p>
+
+    {%- endif -%}
+  </div>
+</section>
+
+{% render 'account-section-styles' %}
+
+<style>
+  #customer-login-{{ section.id }} .account-form__label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+
+  #customer-login-{{ section.id }} .account-form__label-row .account-form__label {
+    margin-bottom: 0;
+  }
+
+  #customer-login-{{ section.id }} .account-form__forgot {
+    font-size: 0.85rem;
+    color: var(--primary, #222);
+    text-decoration: underline;
+  }
+
+  #customer-login-{{ section.id }} .account-section__register-link {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--text-color-muted, #555);
+  }
+
+  #customer-login-{{ section.id }} .account-section__register-link a {
+    color: var(--primary, #222);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+</style>
+
+<style>
+  /* Shared account section base styles */
+  .account-section {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+  }
+
+  .account-section__inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .account-section__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--text-color, #111);
+    margin: 0 0 1.75rem;
+    text-align: center;
+  }
+
+  .account-section__notice {
+    text-align: center;
+    color: var(--text-color-muted, #555);
+  }
+
+  .account-section__notice a {
+    color: var(--primary, #222);
+    text-decoration: underline;
+  }
+
+  .account-form__field {
+    margin-bottom: 1.25rem;
+  }
+
+  .account-form__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color, #111);
+    margin-bottom: 0.4rem;
+  }
+
+  .account-form__input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--input-border, #ccc);
+    border-radius: var(--input-radius, 4px);
+    background: var(--input-bg, #fff);
+    color: var(--text-color, #111);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .account-form__input:focus {
+    outline: none;
+    border-color: var(--primary, #222);
+  }
+
+  .account-form__submit {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+    border: none;
+    border-radius: var(--btn-radius, 4px);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .account-form__submit:hover {
+    opacity: 0.88;
+  }
+
+  .account-form__errors {
+    background: var(--color-error-bg, #fef2f2);
+    border: 1px solid var(--color-error-border, #fca5a5);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-error, #b91c1c);
+    font-size: 0.9rem;
+  }
+
+  .account-form__errors ul {
+    margin: 0;
+    padding: 0 0 0 1.2rem;
+  }
+
+  .account-form__errors ul li:only-child {
+    list-style: none;
+    padding: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Login",
+  "tag": "section",
+  "class": "section-customer-login",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Login"
+    }
+  ]
+}
+{% endschema %}

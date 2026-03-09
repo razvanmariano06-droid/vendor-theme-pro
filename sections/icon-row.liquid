@@ -1,0 +1,192 @@
+{%- assign s = section.settings -%}
+
+<section
+  id="icon-row-{{ section.id }}"
+  class="icon-row"
+>
+  {%- if s.title != blank -%}
+    <div class="icon-row__header">
+      <h2 class="icon-row__title">{{ s.title | escape }}</h2>
+    </div>
+  {%- endif -%}
+
+  {%- if section.blocks.size > 0 -%}
+    <div
+      class="icon-row__grid"
+      style="--columns: {{ s.columns }};"
+      role="list"
+    >
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'feature' -%}
+          <div
+            class="icon-row__item"
+            role="listitem"
+            {{ block.shopify_attributes }}
+          >
+            {%- if block.settings.icon_emoji != blank -%}
+              <div class="icon-row__icon" aria-hidden="true">
+                {{ block.settings.icon_emoji }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.title != blank -%}
+              <h3 class="icon-row__item-title">{{ block.settings.title | escape }}</h3>
+            {%- endif -%}
+
+            {%- if block.settings.description != blank -%}
+              <p class="icon-row__item-desc">{{ block.settings.description | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+<style>
+  #icon-row-{{ section.id }} {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+    max-width: var(--page-width, 1400px);
+    margin: 0 auto;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--text-color, #111);
+    margin: 0;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 3), 1fr);
+    gap: var(--grid-gap, 2rem);
+  }
+
+  #icon-row-{{ section.id }} .icon-row__item {
+    text-align: center;
+    padding: 1.5rem 1rem;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__item-title {
+    font-family: var(--font-heading, inherit);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-color, #111);
+    margin: 0 0 0.5rem;
+  }
+
+  #icon-row-{{ section.id }} .icon-row__item-desc {
+    font-size: 0.9375rem;
+    color: var(--text-color-muted, #555);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    #icon-row-{{ section.id }} .icon-row__grid {
+      grid-template-columns: repeat(min(var(--columns, 3), 2), 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    #icon-row-{{ section.id }} .icon-row__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Icon Row",
+  "tag": "section",
+  "class": "section-icon-row",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Heading",
+      "default": "Why Choose Us"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon_emoji",
+          "label": "Icon (Emoji)",
+          "default": "✅"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature Title"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Short description of this feature or benefit."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Icon Row",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🚚",
+            "title": "Free Shipping",
+            "description": "On all orders over $50."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "🔒",
+            "title": "Secure Checkout",
+            "description": "Your data is always protected."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon_emoji": "↩️",
+            "title": "Easy Returns",
+            "description": "30-day hassle-free returns."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

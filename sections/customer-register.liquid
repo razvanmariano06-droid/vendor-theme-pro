@@ -1,0 +1,299 @@
+<section
+  id="customer-register-{{ section.id }}"
+  class="customer-register account-section"
+>
+  <div class="account-section__inner">
+    <h1 class="account-section__title">{{ 'customer.register.title' | t | default: "Create Account" }}</h1>
+
+    {%- form 'create_customer', id: 'register-form-{{ section.id }}', class: 'account-form' -%}
+      {%- if form.errors -%}
+        <div class="account-form__errors" role="alert" aria-live="assertive">
+          <ul>
+            {%- for error in form.errors -%}
+              <li>
+                {%- if error == 'form' -%}
+                  {{ form.errors.messages[error] }}
+                {%- else -%}
+                  {{ form.errors.translated_fields[error] | capitalize }}
+                  {{ form.errors.messages[error] }}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      <div class="account-form__row">
+        <div class="account-form__field">
+          <label for="reg-first-name-{{ section.id }}" class="account-form__label">
+            {{ 'customer.register.first_name' | t | default: "First Name" }}
+          </label>
+          <input
+            id="reg-first-name-{{ section.id }}"
+            type="text"
+            name="customer[first_name]"
+            class="account-form__input"
+            autocomplete="given-name"
+            autocapitalize="words"
+            {%- if form.first_name %}value="{{ form.first_name | escape }}"{% endif -%}
+          >
+        </div>
+
+        <div class="account-form__field">
+          <label for="reg-last-name-{{ section.id }}" class="account-form__label">
+            {{ 'customer.register.last_name' | t | default: "Last Name" }}
+          </label>
+          <input
+            id="reg-last-name-{{ section.id }}"
+            type="text"
+            name="customer[last_name]"
+            class="account-form__input"
+            autocomplete="family-name"
+            autocapitalize="words"
+            {%- if form.last_name %}value="{{ form.last_name | escape }}"{% endif -%}
+          >
+        </div>
+      </div>
+
+      <div class="account-form__field">
+        <label for="reg-email-{{ section.id }}" class="account-form__label">
+          {{ 'customer.register.email' | t | default: "Email" }}
+          <span class="account-form__required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="reg-email-{{ section.id }}"
+          type="email"
+          name="customer[email]"
+          class="account-form__input"
+          autocomplete="email"
+          autocorrect="off"
+          autocapitalize="off"
+          required
+          aria-required="true"
+          {%- if form.email %}value="{{ form.email | escape }}"{% endif -%}
+        >
+      </div>
+
+      <div class="account-form__field">
+        <label for="reg-password-{{ section.id }}" class="account-form__label">
+          {{ 'customer.register.password' | t | default: "Password" }}
+          <span class="account-form__required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="reg-password-{{ section.id }}"
+          type="password"
+          name="customer[password]"
+          class="account-form__input"
+          autocomplete="new-password"
+          required
+          aria-required="true"
+        >
+      </div>
+
+      <div class="account-form__field account-form__field--checkbox">
+        <label class="account-form__checkbox-label">
+          <input
+            type="checkbox"
+            name="customer[accepts_marketing]"
+            class="account-form__checkbox"
+            value="1"
+          >
+          {{ 'customer.register.accept_marketing' | t | default: "Sign me up for news and exclusive offers" }}
+        </label>
+      </div>
+
+      <div class="account-form__field account-form__field--checkbox">
+        <label class="account-form__checkbox-label">
+          <input
+            type="checkbox"
+            class="account-form__checkbox"
+            required
+            aria-required="true"
+          >
+          {{ 'customer.register.accept_terms' | t | default: "I agree to the" }}
+          <a href="/policies/privacy-policy" target="_blank" rel="noopener">
+            {{ 'customer.register.privacy_policy' | t | default: "Privacy Policy" }}
+          </a>
+          {{ 'customer.register.and' | t | default: "and" }}
+          <a href="/policies/terms-of-service" target="_blank" rel="noopener">
+            {{ 'customer.register.terms' | t | default: "Terms of Service" }}
+          </a>
+        </label>
+      </div>
+
+      <button type="submit" class="account-form__submit btn btn--primary btn--full">
+        {{ 'customer.register.submit' | t | default: "Create Account" }}
+      </button>
+    {%- endform -%}
+
+    <p class="account-section__login-link">
+      {{ 'customer.register.have_account' | t | default: "Already have an account?" }}
+      <a href="/account/login">{{ 'customer.register.sign_in' | t | default: "Sign in" }}</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  #customer-register-{{ section.id }} .account-form__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  #customer-register-{{ section.id }} .account-form__required {
+    color: var(--color-error, #b91c1c);
+    margin-left: 2px;
+  }
+
+  #customer-register-{{ section.id }} .account-form__field--checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  #customer-register-{{ section.id }} .account-form__checkbox-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-color-muted, #555);
+    cursor: pointer;
+    line-height: 1.4;
+  }
+
+  #customer-register-{{ section.id }} .account-form__checkbox {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 2px;
+    flex-shrink: 0;
+    accent-color: var(--primary, #222);
+    cursor: pointer;
+  }
+
+  #customer-register-{{ section.id }} .account-form__checkbox-label a {
+    color: var(--primary, #222);
+    text-decoration: underline;
+  }
+
+  #customer-register-{{ section.id }} .account-section__login-link {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.9375rem;
+    color: var(--text-color-muted, #555);
+  }
+
+  #customer-register-{{ section.id }} .account-section__login-link a {
+    color: var(--primary, #222);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    #customer-register-{{ section.id }} .account-form__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<style>
+  /* Shared account section base styles */
+  .account-section {
+    padding: var(--section-padding-top, 4rem) var(--page-gutter, 1.5rem) var(--section-padding-bottom, 4rem);
+  }
+
+  .account-section__inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .account-section__title {
+    font-family: var(--font-heading, inherit);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: var(--text-color, #111);
+    margin: 0 0 1.75rem;
+    text-align: center;
+  }
+
+  .account-form__field {
+    margin-bottom: 1.25rem;
+  }
+
+  .account-form__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color, #111);
+    margin-bottom: 0.4rem;
+  }
+
+  .account-form__input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--input-border, #ccc);
+    border-radius: var(--input-radius, 4px);
+    background: var(--input-bg, #fff);
+    color: var(--text-color, #111);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .account-form__input:focus {
+    outline: none;
+    border-color: var(--primary, #222);
+  }
+
+  .account-form__submit {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary, #222);
+    color: var(--color-btn-text, #fff);
+    border: none;
+    border-radius: var(--btn-radius, 4px);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    margin-top: 0.5rem;
+  }
+
+  .account-form__submit:hover {
+    opacity: 0.88;
+  }
+
+  .account-form__errors {
+    background: var(--color-error-bg, #fef2f2);
+    border: 1px solid var(--color-error-border, #fca5a5);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    color: var(--color-error, #b91c1c);
+    font-size: 0.9rem;
+  }
+
+  .account-form__errors ul {
+    margin: 0;
+    padding: 0 0 0 1.2rem;
+  }
+
+  .account-form__errors ul li:only-child {
+    list-style: none;
+    padding: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Register",
+  "tag": "section",
+  "class": "section-customer-register",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Customer Register"
+    }
+  ]
+}
+{% endschema %}
