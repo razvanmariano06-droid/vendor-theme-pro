@@ -1,0 +1,182 @@
+{% paginate collection.products by section.settings.products_per_page %}
+
+<div class="collection-grid-section" data-section-id="{{ section.id }}">
+  <div class="container">
+
+    <header class="collection-grid__header">
+      <h1 class="collection-grid__title">{{ collection.title }}</h1>
+
+      {%- if section.settings.show_description and collection.description != blank -%}
+        <div class="collection-grid__description rte">
+          {{ collection.description }}
+        </div>
+      {%- endif -%}
+    </header>
+
+    {%- if section.settings.show_sort -%}
+      <div class="collection-grid__toolbar">
+        <form class="collection-sort" method="get" action="{{ collection.url }}">
+          {%- comment -%} Preserve any existing filters in the URL {%- endcomment -%}
+          {%- for param in request.parameters -%}
+            {%- unless param[0] == 'sort_by' or param[0] == 'page' -%}
+              <input type="hidden" name="{{ param[0] }}" value="{{ param[1] }}">
+            {%- endunless -%}
+          {%- endfor -%}
+
+          <label class="collection-sort__label" for="sort-{{ section.id }}">
+            {{ 'collections.sorting.title' | t }}
+          </label>
+          <select
+            id="sort-{{ section.id }}"
+            name="sort_by"
+            class="collection-sort__select"
+            onchange="this.form.submit()"
+          >
+            {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+            <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>{{ 'collections.sorting.featured' | t }}</option>
+            <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>{{ 'collections.sorting.best_selling' | t }}</option>
+            <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>{{ 'collections.sorting.az' | t }}</option>
+            <option value="title-descending" {% if sort_by == 'title-descending' %}selected{% endif %}>{{ 'collections.sorting.za' | t }}</option>
+            <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>{{ 'collections.sorting.price_ascending' | t }}</option>
+            <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>{{ 'collections.sorting.price_descending' | t }}</option>
+            <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>{{ 'collections.sorting.date_descending' | t }}</option>
+            <option value="created-ascending" {% if sort_by == 'created-ascending' %}selected{% endif %}>{{ 'collections.sorting.date_ascending' | t }}</option>
+          </select>
+        </form>
+
+        <p class="collection-grid__count">
+          {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+        </p>
+      </div>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <div
+        class="collection-grid__products"
+        style="--grid-columns: {{ section.settings.columns }};"
+        data-grid-columns="{{ section.settings.columns }}"
+      >
+        {%- for product in collection.products -%}
+          {% render 'product-card', product: product, index: forloop.index0 %}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        {% render 'pagination', paginate: paginate %}
+      {%- endif -%}
+
+    {%- else -%}
+      <div class="collection-grid__empty">
+        <p class="collection-grid__empty-text">{{ 'collections.general.no_products' | t }}</p>
+        <a href="/collections/all" class="btn btn--primary">
+          {{ 'collections.general.view_all' | t }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+{% endpaginate %}
+
+<style>
+  .collection-grid-section { padding: 40px 0; }
+  .collection-grid__header { margin-bottom: 32px; }
+  .collection-grid__title {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin: 0 0 12px;
+  }
+  .collection-grid__description {
+    color: var(--text-color);
+    line-height: 1.7;
+    max-width: 760px;
+  }
+  .collection-grid__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
+  }
+  .collection-sort { display: flex; align-items: center; gap: 10px; }
+  .collection-sort__label { font-weight: 600; color: var(--text-color); white-space: nowrap; }
+  .collection-sort__select {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color, #ddd);
+    border-radius: 6px;
+    background: var(--background, #fff);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  .collection-grid__count {
+    font-size: 0.9rem;
+    color: var(--text-muted, var(--text-color));
+    margin: 0;
+  }
+  .collection-grid__products {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns, 4), 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 1024px) {
+    .collection-grid__products { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .collection-grid__products { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  }
+  @media (max-width: 480px) {
+    .collection-grid__products { grid-template-columns: 1fr; }
+  }
+  .collection-grid__empty {
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .collection-grid__empty-text {
+    font-size: 1.1rem;
+    color: var(--text-muted, var(--text-color));
+    margin-bottom: 24px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Products per row",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "Products per page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 16
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort dropdown",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show collection description",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

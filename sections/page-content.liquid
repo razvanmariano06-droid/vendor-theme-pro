@@ -1,0 +1,102 @@
+<div class="page-content-section" data-section-id="{{ section.id }}" data-width="{{ section.settings.content_width }}">
+  <div class="container">
+    <div class="page-content__inner page-content__inner--{{ section.settings.content_width }}">
+
+      {%- if section.settings.show_title and page.title != blank -%}
+        <h1 class="page-content__title">{{ page.title }}</h1>
+      {%- endif -%}
+
+      {%- if page.content != blank -%}
+        <div class="page-content__body rte">
+          {{ page.content }}
+        </div>
+      {%- endif -%}
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .page-content-section { padding: 48px 0 64px; }
+  .page-content__inner {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .page-content__inner--narrow  { max-width: 640px; }
+  .page-content__inner--normal  { max-width: 860px; }
+  .page-content__inner--wide    { max-width: 1100px; }
+
+  .page-content__title {
+    font-size: 2.2rem;
+    color: var(--text-color);
+    margin: 0 0 32px;
+    line-height: 1.25;
+    text-align: center;
+  }
+  .page-content__body {
+    color: var(--text-color);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  .page-content__body h2,
+  .page-content__body h3,
+  .page-content__body h4 {
+    color: var(--text-color);
+    margin-top: 2em;
+    margin-bottom: 0.6em;
+  }
+  .page-content__body a { color: var(--primary); }
+  .page-content__body a:hover { text-decoration: underline; }
+  .page-content__body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+  .page-content__body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+  }
+  .page-content__body th,
+  .page-content__body td {
+    border: 1px solid var(--border-color, #e5e5e5);
+    padding: 10px 14px;
+    text-align: left;
+  }
+  .page-content__body th {
+    background: var(--surface, #f5f5f5);
+    font-weight: 700;
+  }
+  .page-content__body blockquote {
+    border-left: 4px solid var(--primary);
+    margin: 1.5em 0;
+    padding: 12px 24px;
+    background: var(--surface, #f9f9f9);
+    font-style: italic;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show page title",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "narrow", "label": "Narrow" },
+        { "value": "normal", "label": "Normal" },
+        { "value": "wide",   "label": "Wide" }
+      ],
+      "default": "normal"
+    }
+  ]
+}
+{% endschema %}
