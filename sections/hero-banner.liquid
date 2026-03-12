@@ -1,0 +1,59 @@
+<section class="hero-section" id="hero">
+  {%- if section.settings.profile_image != blank -%}
+    <div class="hero-profile-img">
+      <img src="{{ section.settings.profile_image | img_url: '300x300', crop: 'center' }}" alt="Profile" width="120" height="120" loading="eager">
+    </div>
+  {%- endif -%}
+
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+    <h1 class="hero-heading">{{ section.settings.heading }}</h1>
+
+    <div class="hero-avatars">
+      {%- for i in (1..10) -%}
+        <div class="avatar-circle" style="--i:{{ forloop.index }};">
+          <img src="{{ 'avatar-' | append: i | append: '.png' | asset_url }}" alt="Reseller {{ i }}" width="36" height="36" loading="lazy" onerror="this.style.display='none';this.parentElement.style.background='var(--primary)';">
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <p class="hero-subtitle">{{ section.settings.subtitle }}</p>
+
+    <a href="#packages" class="btn-primary hero-cta">View Packages</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "START YOUR RESELLING JOURNEY TODAY."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Join 5000+ Resellers"
+    },
+    {
+      "type": "image_picker",
+      "id": "profile_image",
+      "label": "Profile Image (optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "settings": {
+        "heading": "START YOUR RESELLING JOURNEY TODAY.",
+        "subtitle": "Join 5000+ Resellers"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,152 @@
+{%- capture review_cards -%}
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      {%- assign stars = block.settings.stars | default: 5 -%}
+      <div class="review-card" {{ block.shopify_attributes }}>
+        <div class="review-stars">
+          {%- for s in (1..stars) -%}★{%- endfor -%}
+        </div>
+        <p class="review-text">"{{ block.settings.text }}"</p>
+        <div class="review-footer">
+          <span class="review-author">{{ block.settings.author }}</span>
+          {%- if block.settings.verified -%}
+            <span class="verified-badge">✓ Verified</span>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  {%- else -%}
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I started reselling 3 months ago and already made back 10x my investment. The supplier list alone is worth 100x the price. I'm making $2,000+ per week now."</p>
+      <div class="review-footer"><span class="review-author">Marcus T.</span><span class="verified-badge">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Best money I've ever spent. Got access to 200+ verified suppliers the same day. My store went from $0 to $8k/month in under 60 days."</p>
+      <div class="review-footer"><span class="review-author">Jessica L.</span><span class="verified-badge">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Was skeptical at first, but this completely changed my life. The suppliers are legit, margins are insane, and the support team actually responds."</p>
+      <div class="review-footer"><span class="review-author">Daniel K.</span><span class="verified-badge">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"I've tried 5 different supplier lists before and none came close. This is the real deal. Exclusive brands you can't find anywhere else."</p>
+      <div class="review-footer"><span class="review-author">Sarah M.</span><span class="verified-badge">✓ Verified</span></div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Quit my 9-5 after two months of reselling with these suppliers. The directory is updated monthly and every contact actually replies. Life-changing."</p>
+      <div class="review-footer"><span class="review-author">Ryan P.</span><span class="verified-badge">✓ Verified</span></div>
+    </div>
+  {%- endif -%}
+{%- endcapture -%}
+
+<section class="testimonials-section">
+  <div class="section-header">
+    <h2 class="section-title">What Our Resellers Say</h2>
+  </div>
+
+  <div class="marquee-container">
+    <div class="marquee-track">
+      {{ review_cards }}
+      {{ review_cards }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author Name",
+          "default": "Happy Customer"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Review Text",
+          "default": "This product completely changed my reselling business!"
+        },
+        {
+          "type": "range",
+          "id": "stars",
+          "label": "Star Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show Verified Badge",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author": "Marcus T.",
+            "text": "I started reselling 3 months ago and already made back 10x my investment. The supplier list alone is worth 100x the price. I'm making $2,000+ per week now.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Jessica L.",
+            "text": "Best money I've ever spent. Got access to 200+ verified suppliers the same day. My store went from $0 to $8k/month in under 60 days.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Daniel K.",
+            "text": "Was skeptical at first, but this completely changed my life. The suppliers are legit, margins are insane, and the support team actually responds.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Sarah M.",
+            "text": "I've tried 5 different supplier lists before and none came close. This is the real deal. Exclusive brands you can't find anywhere else.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Ryan P.",
+            "text": "Quit my 9-5 after two months of reselling with these suppliers. The directory is updated monthly and every contact actually replies. Life-changing.",
+            "stars": 5,
+            "verified": true
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

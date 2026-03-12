@@ -1,0 +1,135 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "settings": {
+        "heading": "START YOUR RESELLING JOURNEY TODAY.",
+        "subtitle": "Join 5000+ Resellers"
+      }
+    },
+    "packages": {
+      "type": "packages",
+      "settings": {
+        "title": "Choose Your Package",
+        "subtitle": "Everything you need to start reselling today",
+        "products_per_page": 8
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "review-1": {
+          "type": "review",
+          "settings": {
+            "author": "Marcus T.",
+            "text": "I started reselling 3 months ago and already made back 10x my investment. The supplier list alone is worth 100x the price. I'm making $2,000+ per week now.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "review-2": {
+          "type": "review",
+          "settings": {
+            "author": "Jessica L.",
+            "text": "Best money I've ever spent. Got access to 200+ verified suppliers the same day. My store went from $0 to $8k/month in under 60 days.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "review-3": {
+          "type": "review",
+          "settings": {
+            "author": "Daniel K.",
+            "text": "Was skeptical at first, but this completely changed my life. The suppliers are legit, margins are insane, and the support team actually responds.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "review-4": {
+          "type": "review",
+          "settings": {
+            "author": "Sarah M.",
+            "text": "I've tried 5 different supplier lists before and none came close. This is the real deal. Exclusive brands you can't find anywhere else.",
+            "stars": 5,
+            "verified": true
+          }
+        },
+        "review-5": {
+          "type": "review",
+          "settings": {
+            "author": "Ryan P.",
+            "text": "Quit my 9-5 after two months of reselling with these suppliers. The directory is updated monthly and every contact actually replies. Life-changing.",
+            "stars": 5,
+            "verified": true
+          }
+        }
+      },
+      "block_order": ["review-1", "review-2", "review-3", "review-4", "review-5"],
+      "settings": {}
+    },
+    "member_results": {
+      "type": "member-results",
+      "settings": {
+        "title": "Real Member Results",
+        "subtitle": "See what our resellers are achieving"
+      }
+    },
+    "faq": {
+      "type": "faq-section",
+      "blocks": {
+        "faq-1": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What exactly do I get when I purchase a package?",
+            "answer": "<p>You get instant access to our full verified supplier directory, including 200+ wholesale and dropship suppliers, product sourcing guides, pricing sheets, contact details, and step-by-step setup tutorials. Everything you need to start reselling from day one.</p>"
+          }
+        },
+        "faq-2": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How quickly will I receive access after purchase?",
+            "answer": "<p>Access is instant. Immediately after your payment is confirmed, you will receive an email with your download link and login credentials. The entire process takes less than 60 seconds from purchase to access.</p>"
+          }
+        },
+        "faq-3": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need any experience to start reselling?",
+            "answer": "<p>No experience needed. Our package is designed for complete beginners. We include step-by-step guides covering everything from setting up your store to contacting suppliers and fulfilling your first order.</p>"
+          }
+        },
+        "faq-4": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are the suppliers verified and legitimate?",
+            "answer": "<p>Absolutely. Every supplier in our directory has been manually vetted. We test response times, verify business registrations, confirm product authenticity, and check return policies.</p>"
+          }
+        },
+        "faq-5": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What kind of profit margins can I expect?",
+            "answer": "<p>Our resellers typically see margins between 40% and 300% depending on the product category. Our guides show you which categories are most profitable right now.</p>"
+          }
+        },
+        "faq-6": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I get a refund if I'm not satisfied?",
+            "answer": "<p>Yes. We offer a 7-day money-back guarantee. Contact our support team within 7 days of purchase for a full refund, no questions asked.</p>"
+          }
+        },
+        "faq-7": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer support after purchase?",
+            "answer": "<p>Yes. All package customers get access to our private community group and email support. Our team is available 7 days a week.</p>"
+          }
+        }
+      },
+      "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5", "faq-6", "faq-7"],
+      "settings": {}
+    }
+  },
+  "order": ["hero", "packages", "testimonials", "member_results", "faq"]
+}

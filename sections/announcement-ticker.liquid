@@ -1,0 +1,36 @@
+{%- capture ticker_content -%}
+<span class="ticker-item">★ 4.9/5 AVERAGE RATING</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">🟢 <span class="ticker-viewers">47</span> PEOPLE VIEWING</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">🔒 PRIVATE SUPPLIERS</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">☑ VERIFIED VENDORS</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">⏰ SALE ENDS IN <span class="ticker-countdown">02:59:59</span></span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">★ 4.9/5 AVERAGE RATING</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">🟢 <span class="ticker-viewers">47</span> PEOPLE VIEWING</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">🔒 PRIVATE SUPPLIERS</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">☑ VERIFIED VENDORS</span>
+<span class="ticker-sep">•</span>
+<span class="ticker-item">⏰ SALE ENDS IN <span class="ticker-countdown">02:59:59</span></span>
+<span class="ticker-sep">•</span>
+{%- endcapture -%}
+
+<div class="ticker-bar">
+  <div class="ticker-track">
+    {{ ticker_content }}
+    {{ ticker_content }}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement Ticker",
+  "settings": []
+}
+{% endschema %}

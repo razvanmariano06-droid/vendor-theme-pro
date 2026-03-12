@@ -1,0 +1,72 @@
+<section class="member-results-section">
+  <div class="section-header">
+    <h2 class="section-title">{{ section.settings.title }}</h2>
+    <p class="section-subtitle">{{ section.settings.subtitle }}</p>
+  </div>
+
+  {%- if section.blocks.size > 0 -%}
+    {%- capture result_items -%}
+      {%- for block in section.blocks -%}
+        {%- if block.settings.image != blank -%}
+          <div class="result-item" {{ block.shopify_attributes }}>
+            <img src="{{ block.settings.image | img_url: '600x900', crop: 'center' }}"
+                 alt="{{ block.settings.image.alt | default: 'Member result' | escape }}"
+                 width="260" height="450" loading="lazy">
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+
+    {%- if result_items != blank -%}
+      <div class="results-marquee-container">
+        <div class="results-marquee-track">
+          {{ result_items }}
+          {{ result_items }}
+        </div>
+      </div>
+    {%- else -%}
+      <p class="results-empty">Add result images in the Theme Customizer to display member results here.</p>
+    {%- endif -%}
+  {%- else -%}
+    <p class="results-empty">Add result images in the Theme Customizer to display member results here.</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Member Results",
+  "max_blocks": 30,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Real Member Results"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "See what our resellers are achieving"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "result_image",
+      "name": "Result Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Result Screenshot"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Member Results"
+    }
+  ]
+}
+{% endschema %}
