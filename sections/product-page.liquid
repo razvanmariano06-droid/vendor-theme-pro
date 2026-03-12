@@ -1,0 +1,161 @@
+<div class="product-page">
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+
+  <div class="product-layout">
+    <div class="product-images">
+      <div class="product-main-image" id="product-main-image">
+        {%- if product.featured_image -%}
+          <img id="main-product-img"
+               src="{{ product.featured_image | img_url: '800x800', crop: 'center' }}"
+               alt="{{ product.featured_image.alt | default: product.title | escape }}"
+               width="800" height="800" loading="eager">
+        {%- else -%}
+          <div class="product-no-image">No Image</div>
+        {%- endif -%}
+      </div>
+
+      {%- if product.images.size > 1 -%}
+        <div class="product-thumbnails">
+          {%- for image in product.images -%}
+            <button class="product-thumb{% if forloop.first %} active{% endif %}"
+                    data-src="{{ image | img_url: '800x800', crop: 'center' }}"
+                    data-alt="{{ image.alt | default: product.title | escape }}"
+                    aria-label="View image {{ forloop.index }}">
+              <img src="{{ image | img_url: '120x120', crop: 'center' }}"
+                   alt="{{ image.alt | default: product.title | escape }}"
+                   width="120" height="120" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="product-info">
+      <h1 class="product-title">{{ product.title }}</h1>
+
+      <div class="product-prices">
+        <span class="product-price" id="product-price">{{ current_variant.price | money }}</span>
+        {%- assign cv_cap = current_variant.compare_at_price -%}
+        {%- assign cv_pr = current_variant.price -%}
+        {%- unless cv_cap == nil or cv_cap == blank or cv_cap == "" or cv_cap == 0 -%}
+          {%- if cv_cap > cv_pr -%}
+            <span class="product-compare-price" id="product-compare-price">{{ cv_cap | money }}</span>
+            <span class="product-sale-badge">SALE</span>
+          {%- endif -%}
+        {%- endunless -%}
+      </div>
+
+      <div class="product-description">
+        {{ product.description }}
+      </div>
+
+      {%- if product.variants.size > 1 -%}
+        <div class="product-variants">
+          <label class="variant-label" for="variant-select">Choose Option</label>
+          <select id="variant-select" class="variant-select" name="id">
+            {%- for variant in product.variants -%}
+              <option value="{{ variant.id }}"
+                      {% if variant == current_variant %}selected{% endif %}
+                      {% unless variant.available %}disabled{% endunless %}
+                      data-price="{{ variant.price | money }}"
+                      {%- assign v_cap = variant.compare_at_price -%}
+                      {%- assign v_pr = variant.price -%}
+                      {%- unless v_cap == nil or v_cap == blank or v_cap == "" or v_cap == 0 -%}
+                        {%- if v_cap > v_pr -%}
+                          data-compare-price="{{ v_cap | money }}"
+                        {%- endif -%}
+                      {%- endunless -%}>
+                {{ variant.title }}
+                {%- unless variant.available %} — Sold out{%- endunless -%}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- endif -%}
+
+      <div class="product-quantity">
+        <label class="variant-label">Quantity</label>
+        <div class="qty-control">
+          <button class="qty-btn qty-minus" type="button" aria-label="Decrease quantity">−</button>
+          <input type="number" class="qty-input" value="1" min="1" max="99" aria-label="Quantity">
+          <button class="qty-btn qty-plus" type="button" aria-label="Increase quantity">+</button>
+        </div>
+      </div>
+
+      <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form">
+        <input type="hidden" name="id" id="product-variant-id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" id="product-qty-hidden" value="1">
+        <button type="submit" class="buy-now-btn buy-now-full" name="add">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          BUY NOW
+        </button>
+      </form>
+    </div>
+  </div>
+
+  {%- assign rec_collection = product.collections.first -%}
+  {%- if rec_collection != blank -%}
+    {%- assign recommended_products = rec_collection.products -%}
+  {%- endif -%}
+  {%- if recommended_products.size > 1 -%}
+    <div class="recommendations-section">
+      <h2 class="section-title">You May Also Like</h2>
+      <div class="products-grid">
+        {%- for rec_product in recommended_products limit: 4 -%}
+          {%- unless rec_product.id == product.id -%}
+            <div class="product-card anim-fade-up">
+              <a href="{{ rec_product.url }}" class="product-card-image-link">
+                <div class="product-card-image-wrap">
+                  {%- if rec_product.featured_image -%}
+                    <img src="{{ rec_product.featured_image | img_url: '600x600', crop: 'center' }}"
+                         alt="{{ rec_product.featured_image.alt | default: rec_product.title | escape }}"
+                         width="600" height="600" loading="lazy">
+                  {%- else -%}
+                    <div class="product-card-no-image">{{ rec_product.title | upcase | truncate: 2, '' }}</div>
+                  {%- endif -%}
+                </div>
+              </a>
+              <div class="product-card-body">
+                <h3 class="product-card-title"><a href="{{ rec_product.url }}">{{ rec_product.title }}</a></h3>
+                <div class="product-card-prices">
+                  <span class="product-price">{{ rec_product.price | money }}</span>
+                  {%- assign rec_cap = rec_product.compare_at_price -%}
+                  {%- assign rec_pr = rec_product.price -%}
+                  {%- unless rec_cap == nil or rec_cap == blank or rec_cap == "" or rec_cap == 0 -%}
+                    {%- if rec_cap > rec_pr -%}
+                      <span class="product-compare-price">{{ rec_cap | money }}</span>
+                    {%- endif -%}
+                  {%- endunless -%}
+                </div>
+                <div class="product-card-actions">
+                  <a href="{{ rec_product.url }}" class="buy-now-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+                      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    BUY NOW
+                  </a>
+                </div>
+              </div>
+            </div>
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Product Page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Page"
+    }
+  ]
+}
+{% endschema %}

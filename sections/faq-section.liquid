@@ -1,0 +1,170 @@
+<section class="faq-section" id="faq">
+  <div class="section-header">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+  </div>
+
+  <div class="faq-list">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="faq-item{% if forloop.first %} active{% endif %}" {{ block.shopify_attributes }}>
+          <button class="faq-question" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            <span>{{ block.settings.question }}</span>
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">{{ block.settings.answer }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="faq-item active">
+        <button class="faq-question" aria-expanded="true">
+          <span>What exactly do I get when I purchase a package?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">You get instant access to our full verified supplier directory, including 200+ wholesale and dropship suppliers, product sourcing guides, pricing sheets, contact details, and step-by-step setup tutorials. Everything you need to start reselling from day one.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>How quickly will I receive access after purchase?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Access is instant. Immediately after your payment is confirmed, you will receive an email with your download link and login credentials. The entire process takes less than 60 seconds from purchase to access.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>Do I need any experience to start reselling?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">No experience needed. Our package is designed for complete beginners. We include step-by-step guides covering everything from setting up your store to contacting suppliers and fulfilling your first order. Thousands of beginners have started successfully with our materials.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>Are the suppliers verified and legitimate?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely. Every supplier in our directory has been manually vetted. We test response times, verify business registrations, confirm product authenticity, and check return policies. We remove any supplier that fails our quarterly re-verification process.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>What kind of profit margins can I expect?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Our resellers typically see margins between 40% and 300% depending on the product category. Electronics tend toward the lower end, while fashion, accessories, and niche products often hit 200-300% margins. Our guides show you which categories are most profitable right now.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>Can I get a refund if I'm not satisfied?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes. We offer a 7-day money-back guarantee. If you're not completely satisfied with the quality and value of what you receive, contact our support team within 7 days of purchase for a full refund, no questions asked. Check our refund policy for full details.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" aria-expanded="false">
+          <span>Do you offer support after purchase?</span>
+          <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes, absolutely. All package customers get access to our private community group and email support. Our team is available 7 days a week. Premium package customers also get monthly live Q&A calls with our top resellers. You are never left on your own.</div>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "max_blocks": 20,
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is your question?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Your answer goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What exactly do I get when I purchase a package?",
+            "answer": "<p>You get instant access to our full verified supplier directory, including 200+ wholesale and dropship suppliers, product sourcing guides, pricing sheets, contact details, and step-by-step setup tutorials. Everything you need to start reselling from day one.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How quickly will I receive access after purchase?",
+            "answer": "<p>Access is instant. Immediately after your payment is confirmed, you will receive an email with your download link and login credentials. The entire process takes less than 60 seconds from purchase to access.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do I need any experience to start reselling?",
+            "answer": "<p>No experience needed. Our package is designed for complete beginners. We include step-by-step guides covering everything from setting up your store to contacting suppliers and fulfilling your first order.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are the suppliers verified and legitimate?",
+            "answer": "<p>Absolutely. Every supplier in our directory has been manually vetted. We test response times, verify business registrations, confirm product authenticity, and check return policies.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What kind of profit margins can I expect?",
+            "answer": "<p>Our resellers typically see margins between 40% and 300% depending on the product category. Our guides show you which categories are most profitable right now.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I get a refund if I'm not satisfied?",
+            "answer": "<p>Yes. We offer a 7-day money-back guarantee. Contact our support team within 7 days of purchase for a full refund, no questions asked.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Do you offer support after purchase?",
+            "answer": "<p>Yes. All package customers get access to our private community group and email support. Our team is available 7 days a week.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>
+    {%- if template == 'index' -%}{{ shop.name }}{%- else -%}{{ page_title }} — {{ shop.name }}{%- endif -%}
+  </title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+  {{ content_for_header }}
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+  {{ 'style.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    h1,h2,h3,.section-title,.hero-heading { font-family:'Bebas Neue','Impact',sans-serif; text-transform:uppercase; letter-spacing:2px; }
+    body { font-family:'Inter',system-ui,-apple-system,sans-serif; }
+  </style>
+</head>
+<body class="{{ template | handle }}">
+
+  {%- section 'announcement-ticker' -%}
+
+  <header class="site-header" id="site-header">
+    <div class="header-pill">
+      <a href="/" class="header-logo" aria-label="{{ shop.name }}">
+        {%- assign name_parts = shop.name | split: ' ' -%}
+        {%- assign first_word = name_parts | first -%}
+        {%- assign rest_words = '' -%}
+        {%- for word in name_parts -%}
+          {%- unless forloop.first -%}
+            {%- if rest_words != '' -%}
+              {%- assign rest_words = rest_words | append: ' ' | append: word -%}
+            {%- else -%}
+              {%- assign rest_words = word -%}
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+        <span class="logo-first">{{ first_word }}</span><span class="logo-second"> {{ rest_words }}</span>
+      </a>
+
+      <div class="header-actions">
+        <a href="/cart" class="header-cart-btn" aria-label="Cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          {%- if cart.item_count > 0 -%}
+            <span class="cart-count">{{ cart.item_count }}</span>
+          {%- endif -%}
+        </a>
+
+        <button class="header-menu-btn" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="hamburger-icon">
+            <svg class="icon-hamburger" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="mobile-nav" id="mobile-nav" aria-hidden="true">
+      <a href="/" class="mobile-nav-link" data-action="home">
+        <span>Home</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      <a href="/collections/all" class="mobile-nav-link">
+        <span>Products</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+      <a href="/cart" class="mobile-nav-link">
+        <span>Cart</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+    {{ content_for_layout }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <a href="/" aria-label="{{ shop.name }}">
+          {%- assign fp_parts = shop.name | split: ' ' -%}
+          {%- assign fp_first = fp_parts | first -%}
+          {%- assign fp_rest = '' -%}
+          {%- for fp_word in fp_parts -%}
+            {%- unless forloop.first -%}
+              {%- if fp_rest != '' -%}
+                {%- assign fp_rest = fp_rest | append: ' ' | append: fp_word -%}
+              {%- else -%}
+                {%- assign fp_rest = fp_word -%}
+              {%- endif -%}
+            {%- endunless -%}
+          {%- endfor -%}
+          <span class="logo-first">{{ fp_first }}</span><span class="logo-second"> {{ fp_rest }}</span>
+        </a>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="#packages">Packages</a>
+        <a href="/collections/all">Products</a>
+        <a href="/cart">Cart</a>
+        <a href="/policies/terms-of-service">Terms</a>
+        <a href="/policies/privacy-policy">Privacy</a>
+        <a href="/policies/refund-policy">Refunds</a>
+      </nav>
+
+      <p class="footer-copy">&copy; <span id="footer-year"></span> {{ shop.name }}. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <div id="fake-notification" class="fake-notification" role="status" aria-live="polite" style="display:none;"></div>
+
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+    window.fakeNotifProducts = [
+      {%- assign notif_products = collections.all.products | limit: 10 -%}
+      {%- for notif_product in notif_products -%}
+        "{{ notif_product.title | escape }}"{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ];
+
+    if (!window.fakeNotifProducts || window.fakeNotifProducts.length === 0) {
+      window.fakeNotifProducts = [
+        "Reseller Starter Pack",
+        "Premium Supplier Directory",
+        "Wholesale Vendor Bundle",
+        "Elite Reseller Package",
+        "Dropship Supplier List"
+      ];
+    }
+  </script>
+
+  <script src="{{ 'animations.js' | asset_url }}" defer></script>
+</body>
+</html>
